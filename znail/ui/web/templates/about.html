@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Network Emulator</h1>
+    <hr/>
+    <p>The Network Emulator can be used to emulate various network conditions and can manipulate the flow of packets on the network.</p>
+    <div class="mermaid" style="width=100%; height=400px; align: center;">
+        graph LR
+        network --- eth0
+        subgraph network-emulator
+        eth0 --- br0
+        br0 --- eth1
+        end
+        eth1 --- sut
+    </div>
+    <p>To be able to affect network behaviour, the Network Emulator is connected to the <abbr title="System Under Test">SUT</abbr> and the network that the <abbr title="System Under Test">SUT</abbr> should access is connected to the Network Emulator. In this configuration, the Network Emulator effectively acts as a network switch.</p>
+    <p>To manipulate network packets, the Network Emulator makes use of a collection of standard Linux tools:</p>
+    <ul>
+        <li>iptables is used to direct traffic flow
+            <ul>
+                <li><a href="http://ipset.netfilter.org/iptables.man.html">iptables</a></li>
+            </ul>
+        </li>
+        <li>tc, netem and tc-tbf are used to emulate network conditions.
+            <ul>
+                <li><a href="http://man7.org/linux/man-pages/man8/tc.8.html">tc</a></li>
+                <li><a href="http://man7.org/linux/man-pages/man8/tc-netem.8.html">netem</a></li>
+                <li><a href="https://linux.die.net/man/8/tc-tbf">tc-tbf</a></li>
+            </ul>
+        </li>
+    </ul>
+    </p>
+</div>
+<script>mermaid.initialize({startOnLoad:true});</script>
+{% endblock %}

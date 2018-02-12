@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Network DNS Override</h1>
+    <hr/>
+    <p>Redirect all outgoing DNS traffic to the DNS server provided by the Network Emulator.</p>
+    <p>DNS queries are normally forwarded upstream. However, specific hosts and FQDN may be overridden.</p>
+    <p>The DNS server functions in a round-robin fashion. If multiple entries are provided for a single host name,
+       the DNS server will cycle through this list when responding to DNS queries. An entry with an empty IP address
+       field will remove all knowledge of a hostname from the DNS server.</p>
+    <hr/>
+    {% if method == 'POST' %}
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        The changes were applied successfully!
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        The changes could <strong>not</strong> be applied.<br/>
+        The server responded: {{message}}
+    </div>
+    {% endif %}
+    {% endif %}
+    <form class="form-inline" action="/network_dnsoverride" method="post">
+        <input type="hidden" name="add_to_dns_override" value="1"/>
+        <div class="input-group mb-2 mr-sm-2">
+            <input type="text" id="ip_address" class="form-control" style="text-align:right;" name="ip_address" placeholder="192.168.0.1"/>
+            <div class="input-group-append">
+                <div class="input-group-text">IP address</div>
+            </div>
+            <input type="text" id="hostname" class="form-control" style="text-align:right;" name="hostname" placeholder="google.com"/>
+            <div class="input-group-append">
+                <div class="input-group-text">Hostname</div>
+            </div>
+        </div>
+        <button type="submit" id="submit" class="btn btn-primary mb-2">Add DNS Override</button>
+    </form>
+    <hr/>
+    <h6>DNS Overrides</h6>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Hostname</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for override in dns_overrides %}
+            <tr>
+                <td>{{ override['ip_address'] }}</td>
+                <td>{{ override['hostname'] }}</td>
+                <td>
+                    <form action="/network_dnsoverride" method="post">
+                        <input type="hidden" id="remove_from_dns_override" name="remove_from_dns_override" value="1"/>
+                        <input type="hidden" id="ip_address_{{ override['ip_address'] }}" name="ip_address" value="{{ override['ip_address'] }}"/>
+                        <input type="hidden" id="hostname_{{ override['ip_address'] }}" name="hostname" value="{{ override['hostname'] }}"/>
+                        <button type="submit" id="remove_{{ override['ip_address'] }}_{{ override['hostname'] }}" style="border: none;" class="badge badge-pill badge-primary no-border">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

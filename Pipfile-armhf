@@ -1,0 +1,15 @@
+[[source]]
+
+verify_ssl = true
+url = "https://www.piwheels.hostedpi.com/simple/"
+name = "piwheels"
+
+
+[packages]
+
+flask = "==0.12.2"
+flask-restful = "==0.3.6"
+marshmallow = "==2.15.0"
+coloredlogs = "==9.0"
+python-hosts = "==0.4.1"
+requests = "==2.18.4"

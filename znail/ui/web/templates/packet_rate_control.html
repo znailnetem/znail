@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Packet Rate Control</h1>
+    <hr/>
+    <p>Emulates poor network conditions by limiting the rate at which packages are transfered.</p>
+    <p>Package transfer is rate limited by putting incoming packets into a queue and limiting the rate at which packets may leave the queue.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>kbit</td>
+                <td>The rate limit in kbit.</td>
+            </tr>
+            <tr>
+                <td>milliseconds</td>
+                <td>The amount of time a packet may spend in the queue before being discarded.</td>
+            </tr>
+            <tr>
+                <td>bytes</td>
+                <td>The size of the queue in bytes.</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr/>
+    {% if method == 'POST' %}
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        The changes were applied successfully!
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        The changes could <strong>not</strong> be applied.<br/>
+        The server responded: {{message}}
+    </div>
+    {% endif %}
+    {% endif %}
+    <form class="form-inline" action="/packet_rate_control" method="post">
+        <div class="input-group mb-2 mr-sm-2">
+            {% if kbit %}
+            <input type="number" id="kbit" class="form-control" style="text-align:right;" name="kbit" value="{{kbit}}"/>
+            {% else %}
+            <input type="number" id="kbit" class="form-control" style="text-align:right;" name="kbit"/>
+            {% endif %}
+            <div class="input-group-append">
+                <div class="input-group-text">kbit</div>
+            </div>
+        </div>
+        <div class="input-group mb-2 mr-sm-2">
+            {% if latency_milliseconds %}
+            <input type="number" id="latency_milliseconds" class="form-control" style="text-align:right;" name="latency_milliseconds" value="{{latency_milliseconds}}"/>
+            {% else %}
+            <input type="number" id="latency_milliseconds" class="form-control" style="text-align:right;" name="latency_milliseconds"/>
+            {% endif %}
+            <div class="input-group-append">
+                <div class="input-group-text">milliseconds</div>
+            </div>
+        </div>
+        <div class="input-group mb-2 mr-sm-2">
+            {% if burst_bytes %}
+            <input type="number" id="burst_bytes" class="form-control" style="text-align:right;" name="burst_bytes" value="{{burst_bytes}}"/>
+            {% else %}
+            <input type="number" id="burst_bytes" class="form-control" style="text-align:right;" name="burst_bytes"/>
+            {% endif %}
+            <div class="input-group-append">
+                <div class="input-group-text">bytes</div>
+            </div>
+        </div>
+        <button type="submit" id="submit" class="btn btn-primary mb-2">Apply</button>
+    </form>
+    <h5>Examples</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Values</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {%- for item in examples -%}
+            <tr>
+                <td>{{item.description}}</td>
+                <td>{{item.kbit}} kbit, {{item.latency}} ms, {{item.burst}} bytes</td>
+                <th>
+                    <form class="form-inline" action="/packet_rate_control" method="post">
+                        <input type="hidden" id="example_kbit_{{item.kbit}}" class="form-control" style="text-align:right;" name="kbit" value="{{item.kbit}}"/>
+                        <input type="hidden" id="example_latency_milliseconds_{{item.latency}}" class="form-control" style="text-align:right;" name="latency_milliseconds" value="{{item.latency}}"/>
+                        <input type="hidden" id="example_burst_bytes_{{item.burst}}" class="form-control" style="text-align:right;" name="burst_bytes" value="{{item.burst}}"/>
+                        <button type="submit" id="submit_default_{{item.kbit}}_{{item.latency}}_{{item.burst}}" style="border: none;" class="badge badge-pill badge-primary no-border">Apply</button>
+                    </form>
+                </th>
+            </tr>
+            {% endfor -%}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

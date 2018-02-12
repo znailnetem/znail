@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Packet Loss</h1>
+    <hr/>
+    <p>Emulates poor network conditions by dropping a percentage of all incoming packets.</p>
+    <hr/>
+    {% if method == 'POST' %}
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        The changes were applied successfully!
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        The changes could <strong>not</strong> be applied.<br/>
+        The server responded: {{message}}
+    </div>
+    {% endif %}
+    {% endif %}
+    <form class="form-inline" action="/packet_loss" method="post">
+        <div class="input-group mb-2 mr-sm-2">
+            {% if percent %}
+            <input type="number" id="percent" class="form-control" style="text-align:right;" name="percent" step="any" value="{{percent}}"/>
+            {% else %}
+            <input type="number" id="percent" class="form-control" style="text-align:right;" name="percent" step="any" placeholder="Example: 0.1"/>
+            {% endif %}
+            <div class="input-group-append">
+                <div class="input-group-text">percent</div>
+            </div>
+        </div>
+        <button type="submit" id="submit" class="btn btn-primary mb-2">Apply</button>
+    </form>
+    <h5>Examples</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Value</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {%- for item in examples -%}
+            <tr>
+                <td>{{item.description}}</td>
+                <td>{{item.value}}%</td>
+                <th>
+                    <form class="form-inline" action="/packet_loss" method="post">
+                        <input type="hidden" id="example_percent_{{item.value}}" class="form-control" style="text-align:right;" name="percent" step="any" value="{{item.value}}"/>
+                        <button type="submit" id="submit_default_{{item.value}}" style="border: none;" class="badge badge-pill badge-primary no-border">Apply</button>
+                    </form>
+                </th>
+            </tr>
+            {% endfor -%}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

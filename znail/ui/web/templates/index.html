@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Network Emulator</h1>
+    <hr/>
+    <h6>System Overview</h6>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, status in packet_control_summary.items() %}
+            <tr>
+                <td>{{ name }}</td>
+                {% if status %}
+                <td><span class="badge badge-pill badge-primary">Active</span></td>
+                {% else %}
+                <td><span class="badge badge-pill badge-secondary">Inactive</span></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% for name, status in network_control_summary.items() %}
+            <tr>
+                <td>{{ name }}</td>
+                {% if status %}
+                <td><span class="badge badge-pill badge-primary">Active</span></td>
+                {% else %}
+                <td><span class="badge badge-pill badge-secondary">Inactive</span></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

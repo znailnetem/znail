@@ -1,0 +1,6 @@
+[style]
+based_on_style = pep8
+column_limit = 100
+blank_line_before_nested_class_or_def = true
+split_before_expression_after_opening_paren = true
+split_before_first_argument = true

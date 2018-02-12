@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Network IP Redirect</h1>
+    <hr/>
+    <p>Redirect packets with one destination (ip:port) to another destination (ip:port).</p>
+    <hr/>
+    {% if method == 'POST' %}
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        The changes were applied successfully!
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        The changes could <strong>not</strong> be applied.<br/>
+        The server responded: {{message}}
+    </div>
+    {% endif %}
+    {% endif %}
+    <form class="form-inline" action="/network_ip_redirect" method="post">
+        <input type="hidden" name="add_ip_redirect" value="1"/>
+        <div class="input-group mb-2 mr-sm-2">
+            <input type="text" id="ip" class="form-control" style="text-align:right;" name="ip" placeholder="192.168.0.1"/>
+            <div class="input-group-append">
+                <div class="input-group-text">:</div>
+            </div>
+            <input type="number" id="port" class="form-control" style="text-align:right;" name="port" placeholder="80"/>
+            <div class="input-group-append">
+                <div class="input-group-text">Redirect to</div>
+            </div>
+            <input type="text" id="destination_ip" class="form-control" style="text-align:right;" name="destination_ip" placeholder="10.0.0.1"/>
+            <div class="input-group-append">
+                <div class="input-group-text">:</div>
+            </div>
+            <input type="number" id="destination_port" class="form-control" style="text-align:right;" name="destination_port" placeholder="8080"/>
+            <select id="protocol" name="protocol">
+                <option value="tcp">TCP</option>
+                <option value="udp">UDP</option>
+            </select>
+        </div>
+        <button type="submit" id="submit" class="btn btn-primary mb-2">Add IP Redirect</button>
+    </form>
+    <hr/>
+    <h6>IP Redirects</h6>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Source IP Address</th>
+                <th>Source IP Port</th>
+                <th>Destination IP Address</th>
+                <th>Destination IP Port</th>
+                <th>Protocol</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for redirect in ip_redirects %}
+            <tr>
+                <td>{{ redirect['ip'] }}</td>
+                <td>{{ redirect['port'] }}</td>
+                <td>{{ redirect['destination_ip'] }}</td>
+                <td>{{ redirect['destination_port'] }}</td>
+                <td>{{ redirect['protocol'] }}</td>
+                <td>
+                    <form action="/network_ip_redirect" method="post">
+                        <input type="hidden" id="remove_ip_redirect" name="remove_ip_redirect" value="1"/>
+                        <input type="hidden" id="ip_{{ redirect['ip'] }}" name="ip" value="{{ redirect['ip'] }}"/>
+                        <input type="hidden" id="port_{{ redirect['port'] }}" name="port" value="{{ redirect['port'] }}"/>
+                        <input type="hidden" id="destination_ip_{{ redirect['destination_ip'] }}" name="destination_ip" value="{{ redirect['destination_ip'] }}"/>
+                        <input type="hidden" id="destination_port_{{ redirect['destination_port'] }}" name="destination_port" value="{{ redirect['destination_port'] }}"/>
+                        <input type="hidden" id="protocol_{{ redirect['protocol'] }}" name="protocol" value="{{ redirect['protocol'] }}"/>
+                        <button type="submit" id="remove_{{ redirect['ip'] }}_{{ redirect['port'] }}_{{ redirect['destination_ip'] }}_{{ redirect['destination_port'] }}_{{ redirect['protocol'] }}" style="border: none;" class="badge badge-pill badge-primary no-border">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

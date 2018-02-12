@@ -1,0 +1,2 @@
+include znail/ui/web/templates/*
+include znail/ui/web/static/*

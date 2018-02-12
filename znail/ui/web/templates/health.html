@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>System Health</h1>
+    <hr/>
+    <p>For diagnostic purposes, the Network Emulator provides a collection of built-in health checks.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Health Check Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, status in health_check_results.items() %}
+            <tr>
+                <td>{{ name }}</td>
+                {% if status %}
+                <td><span class="badge badge-success">Success</span></td>
+                {% else %}
+                <td><span class="badge badge-danger">Failure</span></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr/>
+    {% if system_is_healthy %}
+    <div class="alert alert-success" role="alert">
+        All health checks passed. This system is healthy and ready for operation!
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        One or more health check has failed. This system is <strong>not</strong> ready for operation!
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

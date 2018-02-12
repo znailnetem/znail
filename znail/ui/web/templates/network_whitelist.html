@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Network Whitelist</h1>
+    <hr/>
+    <p>Unless otherwise specified, emulated network conditions are applied to all incoming packets.</p>
+    <p>For cases where this is not desired, a whitelist is provided. Packets being sent to or originating from addresses on the whitelist are not subject to the emulated conditions.</p>
+    <hr/>
+    {% if method == 'POST' %}
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+        The changes were applied successfully!
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        The changes could <strong>not</strong> be applied.<br/>
+        The server responded: {{message}}
+    </div>
+    {% endif %}
+    {% endif %}
+    <form class="form-inline" action="/network_whitelist" method="post">
+        <div class="input-group mb-2 mr-sm-2">
+            <input type="text" id="add_to_whitelist" class="form-control" style="text-align:right;" name="add_to_whitelist" placeholder="192.168.0.1"/>
+            <div class="input-group-append">
+                <div class="input-group-text">IP address</div>
+            </div>
+        </div>
+        <button type="submit" id="submit" class="btn btn-primary mb-2">Add to Whitelist</button>
+    </form>
+    <hr/>
+    <h6>Whitelist</h6>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for address in whitelist %}
+            <tr>
+                <td>{{ address }}</td>
+                <td>
+                    <form action="/network_whitelist" method="post">
+                        <input type="hidden" id="remove_from_whitelist" name="remove_from_whitelist" value="{{ address }}"/>
+                        <button type="submit" id="remove_{{ address }}" style="border: none;" class="badge badge-pill badge-primary no-border">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

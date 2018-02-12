@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Network Emulator</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/static/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/dashboard.css">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Network Emulator</a>
+            <div class="col-auto text-sm" style="color: whitesmoke">Version: {{ znail_version }}</div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky offcanvas-collapse">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>System</span>
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                {% if current_page == 'overview' %}
+                                <a class="nav-link active" href="/">
+                                    Overview <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/">
+                                    Overview
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'health' %}
+                                <a class="nav-link active" href="/health">
+                                    Health <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/health">
+                                    Health
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'about' %}
+                                <a class="nav-link active" href="/about">
+                                    About <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/about">
+                                    About
+                                </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Packet Control</span>
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                {% if current_page == 'packet_delay' %}
+                                <a class="nav-link active" href="/packet_delay">
+                                    Delay <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/packet_delay">
+                                    Delay
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'packet_loss' %}
+                                <a class="nav-link active" href="/packet_loss">
+                                    Loss <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/packet_loss">
+                                    Loss
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'packet_duplication' %}
+                                <a class="nav-link active" href="/packet_duplication">
+                                    Duplication <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/packet_duplication">
+                                    Duplication
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'packet_reordering' %}
+                                <a class="nav-link active" href="/packet_reordering">
+                                    Reordering <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/packet_reordering">
+                                    Reordering
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'packet_corruption' %}
+                                <a class="nav-link active" href="/packet_corruption">
+                                    Corruption <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/packet_corruption">
+                                    Corruption
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'packet_rate_control' %}
+                                <a class="nav-link active" href="/packet_rate_control">
+                                    Rate Control <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/packet_rate_control">
+                                    Rate Control
+                                </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Network Control</span>
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                {% if current_page == 'network_disconnect' %}
+                                <a class="nav-link active" href="/network_disconnect">
+                                    Disconnect <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/network_disconnect">
+                                    Disconnect
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'network_whitelist' %}
+                                <a class="nav-link active" href="/network_whitelist">
+                                    Whitelist <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/network_whitelist">
+                                    Whitelist
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'network_dnsoverride' %}
+                                <a class="nav-link active" href="/network_dnsoverride">
+                                    DNS Override <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/network_dnsoverride">
+                                    DNS Override
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                {% if current_page == 'network_ip_redirect' %}
+                                <a class="nav-link active" href="/network_ip_redirect">
+                                    IP Redirect <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/network_ip_redirect">
+                                    IP Redirect
+                                </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                </nav>
+
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                    {% if znail_new_version_available %}
+                    <div class="alert alert-info" role="alert">
+                        There is a new version of the Network Emulator available. To upgrade, please reboot your device.
+                    </div>
+                    {% endif %}
+                    <div id="content">{% block content %}{% endblock %}</div>
+                </main>
+            </div>
+        </div>
+
+        <script src="/static/mermaid.min.js"></script>
+        <script src="/static/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="/static/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="/static/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+
+</html>
