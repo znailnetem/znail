@@ -1,5 +1,7 @@
 # Znail
 
+![Znail Logo](/artwork/znail_x10.png)
+
 Znail is a network emulator inteded to run on a Raspberry Pi.
 Equipped with two network interfaces, the Raspberry Pi acts as a network bridge.
 Znail can then control network traffic passing through the bridge.
@@ -32,8 +34,10 @@ To set up the development environment on recent Ubuntu systems, run the followin
     sudo apt install python3-pip
     sudo pip3 install "pipenv==9.0.2"
 
-# License
+# Special Thanks
 
-Copyright Zenterio AB, 2018, 2019
+Special thanks to Alice Persson for contributing the Znail logotype.
+
+# License
 
 Distributed under the terms of the Apache License 2.0.
