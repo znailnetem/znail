@@ -11,7 +11,7 @@ from znail.update import is_update_available
 
 
 def _api_url(path):
-    return 'http://localhost:80/api{path}'.format(path=path)
+    return '{host_url}api{path}'.format(host_url=flask.request.host_url, path=path)
 
 
 @app.route('/')

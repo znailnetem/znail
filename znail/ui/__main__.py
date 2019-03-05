@@ -1,5 +1,6 @@
 import logging
 
+import click
 import coloredlogs
 
 import znail.ui.api  # noqa
@@ -22,10 +23,15 @@ def _prepare_system_for_use():
     logger.info('Done preparing system for use')
 
 
-def main():
+@click.command()
+@click.version_option()
+@click.option('-h', '--host', type=str, default='0.0.0.0', help='Listen on address.')
+@click.option('-p', '--port', type=int, default=80, help='Listen on this port.')
+@click.option('-d', '--debug', is_flag=True, default=False, help='Run in debug mode.')
+def main(host, port, debug):
     coloredlogs.install(level='DEBUG')
     _prepare_system_for_use()
-    app.run(host='0.0.0.0', port=80, threaded=True)
+    app.run(host=host, port=port, debug=debug, threaded=True)
 
 
 if __name__ == '__main__':
