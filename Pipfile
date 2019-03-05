@@ -1,4 +1,5 @@
 [dev-packages]
+
 "flake8" = "==3.3.0"
 sphinx = "==1.5.3"
 isort = "==4.3.0"
@@ -8,14 +9,17 @@ sphinx-rtd-theme = "==0.2.4"
 sphinxcontrib-plantuml = "==0.8.1"
 yapf = "==0.20.0"
 coverage = "==4.5.1"
-e1839a8 = {path = ".",editable = true}
+"e1839a8" = {path = ".",editable = true}
+
 
 [packages]
+
 coloredlogs = "==9.0"
 flask = "==0.12.2"
+flask-cors = "==3.0.7"
 flask-restful = "==0.3.6"
 marshmallow = "==2.15.0"
 python-hosts = "==0.4.1"
 requests = "==2.18.4"
 pydocstyle = "==3.0.0"
-flake8 = "==3.7.5"
+"flake8" = "==3.7.5"

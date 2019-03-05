@@ -1,9 +1,11 @@
 import types
 
 import flask
+import flask_cors
 import flask_restful
 
 app = flask.Flask('znail', static_folder='ui/web/static', template_folder='ui/web/templates')
+flask_cors.CORS(app)
 api = flask_restful.Api(app)
 
 
