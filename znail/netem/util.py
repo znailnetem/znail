@@ -6,6 +6,7 @@ from textwrap import dedent
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
+hosts_file = os.getenv('HOSTS_FILE', '/etc/hosts')
 iptables = os.getenv('IPTABLES_COMMAND', 'iptables')
 tc = os.getenv('TC_COMMAND', 'tc')
 hub_ctrl = os.getenv('HUB_CTRL_COMMAND', 'hub-ctrl')
@@ -34,7 +35,7 @@ def restore_hosts_file_to_default():
     run_in_shell(
         dedent(
             '''\
-    cat <<EOF> /etc/hosts
+    cat <<EOF> {hosts_file}
     127.0.0.1 localhost
     127.0.1.1 $(hostname)
 
@@ -46,4 +47,4 @@ def restore_hosts_file_to_default():
     ff02::2 ip6-allrouters
     ff02::3 ip6-allhosts
     EOF
-    '''))
+    '''.format(hosts_file=hosts_file)))
