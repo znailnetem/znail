@@ -28,6 +28,9 @@ class DnsOverrideDescriptor(object):
     def ip_address(self):
         return self._ip_address
 
+    def __lt__(self, other):
+        return self._hostname < other._hostname
+
     def __eq__(self, other):
         return self._hostname == other.hostname and self._ip_address == other.ip_address
 
@@ -48,10 +51,7 @@ class DnsOverrides(object):
     def apply(self, override_descriptors):
         try:
             self._override_descriptors = override_descriptors
-            self._redirect_all_dns_traffic_to_local_server()
-            self._apply_hosts_file_overrides()
-            self._apply_dnsmasq_config_overrides()
-            self._reload_dnsmasq_service()
+            self._apply(override_descriptors)
         except Exception as e:
             logger.debug(str(e), exc_info=True)
 
@@ -61,6 +61,15 @@ class DnsOverrides(object):
 
     def clear(self):
         self._override_descriptors = []
+        self._clear()
+
+    def _apply(self, override_descriptors):
+        self._redirect_all_dns_traffic_to_local_server()
+        self._apply_hosts_file_overrides()
+        self._apply_dnsmasq_config_overrides()
+        self._reload_dnsmasq_service()
+
+    def _clear(self):
         restore_hosts_file_to_default()
         self._clear_dnsmasq_config_overrides()
         self._reload_dnsmasq_service()
