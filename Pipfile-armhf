@@ -8,7 +8,7 @@ name = "piwheels"
 [packages]
 
 click = "==7.0"
-flask = "==0.12.2"
+flask = "==1.0.2"
 flask-cors = "==3.0.7"
 flask-restful = "==0.3.6"
 marshmallow = "==2.15.0"
