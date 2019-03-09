@@ -29,15 +29,21 @@ class Usb(object):
         """
         logger.info('Disabling all USB ports')
         hub_id = self._get_hub_id()
-        run_in_shell('{hub_ctrl} -h {hub_id} -P 2 -p 0'.format(hub_ctrl=hub_ctrl, hub_id=hub_id))
+        self._disable_usb_ports(hub_id)
         self._enabled = False
 
     def enable_all_usb_ports(self):
         """Enable all USB ports."""
         logger.info('Enabling all USB ports')
         hub_id = self._get_hub_id()
-        run_in_shell('{hub_ctrl} -h {hub_id} -P 2 -p 1'.format(hub_ctrl=hub_ctrl, hub_id=hub_id))
+        self._enable_usb_ports(hub_id)
         self._enabled = True
+
+    def _disable_usb_ports(self, hub_id):
+        run_in_shell('{hub_ctrl} -h {hub_id} -P 2 -p 0'.format(hub_ctrl=hub_ctrl, hub_id=hub_id))
+
+    def _enable_usb_ports(self, hub_id):
+        run_in_shell('{hub_ctrl} -h {hub_id} -P 2 -p 1'.format(hub_ctrl=hub_ctrl, hub_id=hub_id))
 
     def _get_hub_id(self):
         with open('/proc/cpuinfo') as f:
