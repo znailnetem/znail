@@ -4,7 +4,7 @@ from unittest.mock import patch
 from znail.ui import app
 
 
-class TestPacketCorruption(unittest.TestCase):
+class TestPacketReordering(unittest.TestCase):
 
     def setUp(self):
         run_in_shell_patcher = patch('znail.netem.tc.run_in_shell')
