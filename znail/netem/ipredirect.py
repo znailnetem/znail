@@ -26,6 +26,11 @@ class IpRedirectDescriptor(object):
                 destination_port=self.destination_port,
                 protocol=self.protocol)
 
+    def __lt__(self, other):
+        return str(self.ip) + str(self.port) + str(self.destination_ip) + str(
+            self.destination_port) + str(self.protocol) < str(other.ip) + str(other.port) + str(
+                other.destination_ip) + str(other.destination_port) + str(other.protocol)
+
     def __eq__(self, other):
         return (self.ip == other.ip and self.port == other.port and self.protocol == other.protocol)
 
@@ -49,17 +54,23 @@ class IpRedirect(object):
     def apply(self, redirects):
         self.clear()
         self._redirects = redirects
-        for redirect in self._redirects:
-            self._add_iptables_rule(redirect)
+        self._apply(redirects)
 
     @property
     def redirects(self):
         return self._redirects
 
     def clear(self):
+        self._clear()
+        self._redirects = []
+
+    def _apply(self, redirects):
+        for redirect in self._redirects:
+            self._add_iptables_rule(redirect)
+
+    def _clear(self):
         for redirect in self._redirects:
             self._remove_iptables_rule(redirect)
-        self._redirects = []
 
     def _add_iptables_rule(self, redirect):
         logger.info('Applying: {redirect}'.format(redirect=str(redirect)))

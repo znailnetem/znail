@@ -21,3 +21,17 @@ def test_ip_redirect_descriptor_has_equality_operator():
     c = IpRedirectDescriptor('4.3.2.1', 3, '1.2.3.4', 1, 'tcp')
     assert a == b
     assert a != c
+
+
+def test_ip_redirect_descriptor_is_less_than_comparable():
+    a = IpRedirectDescriptor('1.2.3.4', 1, '2.3.4.5', 2, 'tcp')
+    b = IpRedirectDescriptor('2.2.3.4', 1, '2.3.4.5', 2, 'tcp')
+    c = IpRedirectDescriptor('2.2.3.4', 2, '2.3.4.5', 2, 'tcp')
+    d = IpRedirectDescriptor('2.2.3.4', 2, '3.3.4.5', 2, 'tcp')
+    e = IpRedirectDescriptor('2.2.3.4', 2, '3.3.4.5', 3, 'tcp')
+    f = IpRedirectDescriptor('2.2.3.4', 2, '3.3.4.5', 3, 'udp')
+    assert a < b
+    assert b < c
+    assert c < d
+    assert d < e
+    assert e < f

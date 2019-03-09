@@ -29,7 +29,8 @@ class DnsOverrideDescriptor(object):
         return self._ip_address
 
     def __lt__(self, other):
-        return self._hostname < other._hostname
+        return str(self._hostname) + str(self._ip_address) < str(other._hostname) + str(
+            other._hostname)
 
     def __eq__(self, other):
         return self._hostname == other.hostname and self._ip_address == other.ip_address

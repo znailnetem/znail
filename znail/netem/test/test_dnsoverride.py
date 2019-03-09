@@ -40,4 +40,8 @@ def test_dns_override_descriptor_has_equality_operator():
 def test_dns_override_descriptor_is_less_than_comparable():
     a = DnsOverrideDescriptor('a', '1.2.3.4')
     b = DnsOverrideDescriptor('b', '1.2.3.4')
+    c = DnsOverrideDescriptor('b', '2.3.4.5')
+    d = DnsOverrideDescriptor('b', '0.0.0.0')
     assert a < b
+    assert b < c
+    assert d < b
