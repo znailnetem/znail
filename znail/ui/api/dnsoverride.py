@@ -1,6 +1,6 @@
 import ipaddress
 
-import flask_restful
+import flask_restplus
 import marshmallow
 
 from znail.netem.dnsoverride import DnsOverrideDescriptor, DnsOverrides
@@ -30,7 +30,7 @@ _dns_overrides = DnsOverrides()
 
 
 @api.route('/api/dnsoverride')
-class DnsOverrideResource(flask_restful.Resource):
+class DnsOverrideResource(flask_restplus.Resource):
 
     def get(self):
         return [
@@ -49,7 +49,7 @@ class DnsOverrideResource(flask_restful.Resource):
 
 
 @api.route('/api/dnsoverride/clear')
-class ClearDnsOverrideResource(flask_restful.Resource):
+class ClearDnsOverrideResource(flask_restplus.Resource):
 
     def post(self):
 

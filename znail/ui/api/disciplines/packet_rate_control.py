@@ -1,4 +1,4 @@
-import flask_restful
+import flask_restplus
 import marshmallow
 
 from znail.netem.disciplines import RateControl
@@ -14,9 +14,10 @@ class PacketCorruptionSchema(marshmallow.Schema):
 
 
 @api.route('/api/disciplines/packet_rate_control')
-class PacketRateControlResource(flask_restful.Resource):
+class PacketRateControlResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.tc = Tc.adapter('eth1')
 
     def get(self):
@@ -39,9 +40,10 @@ class PacketRateControlResource(flask_restful.Resource):
 
 
 @api.route('/api/disciplines/packet_rate_control/clear')
-class ClearPacketRateControlResource(flask_restful.Resource):
+class ClearPacketRateControlResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.tc = Tc.adapter('eth1')
 
     def post(self):

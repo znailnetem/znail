@@ -1,6 +1,6 @@
 import ipaddress
 
-import flask_restful
+import flask_restplus
 import marshmallow
 
 from znail.netem.tc import Tc
@@ -21,9 +21,10 @@ class WhiteListSchema(marshmallow.Schema):
 
 
 @api.route('/api/whitelist')
-class WhiteListResource(flask_restful.Resource):
+class WhiteListResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._tc = Tc.adapter('eth1')
 
     def get(self):
@@ -39,9 +40,10 @@ class WhiteListResource(flask_restful.Resource):
 
 
 @api.route('/api/whitelist/clear')
-class ClearWhiteListResource(flask_restful.Resource):
+class ClearWhiteListResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._tc = Tc.adapter('eth1')
 
     def post(self):

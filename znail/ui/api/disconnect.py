@@ -4,7 +4,7 @@ Emulates a network disconnect by powering down the built in USB hub.
 In many ways, this is equivalent of disconnecting the network cable.
 """
 
-import flask_restful
+import flask_restplus
 import marshmallow
 
 from znail.netem.usb import Usb
@@ -20,9 +20,10 @@ _usb = Usb()
 
 
 @api.route('/api/disconnect')
-class DisconnectResource(flask_restful.Resource):
+class DisconnectResource(flask_restplus.Resource):
 
-    def get(self):
+    def get(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         return {'disconnected': not _usb.enabled}, 200
 
     def post(self):
@@ -37,7 +38,7 @@ class DisconnectResource(flask_restful.Resource):
 
 
 @api.route('/api/disconnect/clear')
-class ClearDisconnectResource(flask_restful.Resource):
+class ClearDisconnectResource(flask_restplus.Resource):
 
     def post(self):
 

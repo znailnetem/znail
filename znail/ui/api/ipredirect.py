@@ -1,6 +1,6 @@
 import ipaddress
 
-import flask_restful
+import flask_restplus
 import marshmallow
 
 from znail.netem.ipredirect import IpRedirect, IpRedirectDescriptor
@@ -47,7 +47,7 @@ _ip_redirects = IpRedirect()
 
 
 @api.route('/api/ipredirect')
-class IpRedirectResource(flask_restful.Resource):
+class IpRedirectResource(flask_restplus.Resource):
 
     def get(self):
         return [
@@ -69,7 +69,7 @@ class IpRedirectResource(flask_restful.Resource):
 
 
 @api.route('/api/ipredirect/clear')
-class ClearIpRedirectResource(flask_restful.Resource):
+class ClearIpRedirectResource(flask_restplus.Resource):
 
     def post(self):
 

@@ -1,4 +1,4 @@
-import flask_restful
+import flask_restplus
 import marshmallow
 
 from znail.netem.disciplines import PacketLoss
@@ -12,9 +12,10 @@ class PacketLossSchema(marshmallow.Schema):
 
 
 @api.route('/api/disciplines/packet_loss')
-class PacketLossResource(flask_restful.Resource):
+class PacketLossResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.tc = Tc.adapter('eth1')
 
     def get(self):
@@ -32,9 +33,10 @@ class PacketLossResource(flask_restful.Resource):
 
 
 @api.route('/api/disciplines/packet_loss/clear')
-class ClearPacketLossResource(flask_restful.Resource):
+class ClearPacketLossResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.tc = Tc.adapter('eth1')
 
     def post(self):

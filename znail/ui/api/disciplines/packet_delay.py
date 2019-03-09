@@ -1,4 +1,4 @@
-import flask_restful
+import flask_restplus
 import marshmallow
 
 from znail.netem.disciplines import PacketDelay
@@ -12,9 +12,10 @@ class PacketDelaySchema(marshmallow.Schema):
 
 
 @api.route('/api/disciplines/packet_delay')
-class PacketDelayResource(flask_restful.Resource):
+class PacketDelayResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.tc = Tc.adapter('eth1')
 
     def get(self):
@@ -32,9 +33,10 @@ class PacketDelayResource(flask_restful.Resource):
 
 
 @api.route('/api/disciplines/packet_delay/clear')
-class ClearPacketDelayResource(flask_restful.Resource):
+class ClearPacketDelayResource(flask_restplus.Resource):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.tc = Tc.adapter('eth1')
 
     def post(self):
