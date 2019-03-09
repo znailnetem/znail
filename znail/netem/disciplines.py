@@ -21,6 +21,13 @@ class QueueingDiscipline(object):
     def discipline(self):
         return self._discipline
 
+    def __eq__(self, other):
+        for k, v in self.__dict__.items():
+            if not k.startswith('__'):
+                if v != other.__dict__[k]:
+                    return False
+        return True
+
 
 class PacketDelay(QueueingDiscipline):
     """Queueing discipline that adds fixed delay to all packets."""
