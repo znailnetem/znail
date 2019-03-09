@@ -1,15 +1,22 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import call, patch
 
+from znail.netem.disciplines import RateControl
+from znail.netem.tc import Tc
 from znail.ui import app
 
 
 class TestPacketRateControl(unittest.TestCase):
 
     def setUp(self):
-        run_in_shell_patcher = patch('znail.netem.tc.run_in_shell')
-        self.run_in_shell = run_in_shell_patcher.start()
-        self.addCleanup(run_in_shell_patcher.stop)
+        tc_clear_patcher = patch.object(Tc, 'clear')
+        self.tc_clear = tc_clear_patcher.start()
+        self.addCleanup(tc_clear_patcher.stop)
+
+        tc_apply_patcher = patch.object(Tc, 'apply')
+        self.tc_apply = tc_apply_patcher.start()
+        self.addCleanup(tc_apply_patcher.stop)
+
         self.client = app.test_client()
 
     def tearDown(self):
@@ -36,6 +43,12 @@ class TestPacketRateControl(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
 
+        last_call = self.tc_apply.call_args_list[-1]
+        self.assertEqual(
+            last_call, call({
+                'rate': RateControl(kbit=1, latency_milliseconds=2, burst_bytes=3)
+            }))
+
         response = self.client.get('/api/disciplines/packet_rate_control')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'kbit': 1, 'latency_milliseconds': 2, 'burst_bytes': 3})
@@ -51,6 +64,12 @@ class TestPacketRateControl(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
 
+        last_call = self.tc_apply.call_args_list[-1]
+        self.assertEqual(
+            last_call, call({
+                'rate': RateControl(kbit=1, latency_milliseconds=2, burst_bytes=3)
+            }))
+
         response = self.client.get('/api/disciplines/packet_rate_control')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'kbit': 1, 'latency_milliseconds': 2, 'burst_bytes': 3})
@@ -64,6 +83,12 @@ class TestPacketRateControl(unittest.TestCase):
             })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
+
+        last_call = self.tc_apply.call_args_list[-1]
+        self.assertEqual(
+            last_call, call({
+                'rate': RateControl(kbit=2, latency_milliseconds=3, burst_bytes=4)
+            }))
 
         response = self.client.get('/api/disciplines/packet_rate_control')
         self.assertEqual(response.status_code, 200)
@@ -84,3 +109,6 @@ class TestPacketRateControl(unittest.TestCase):
         response = self.client.post('/api/disciplines/packet_rate_control/clear')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
+
+        last_call = self.tc_apply.call_args_list[-1]
+        self.assertEqual(last_call, call({}))
