@@ -50,6 +50,10 @@ class TestPacketCorruption(unittest.TestCase):
         response = self.client.post('/api/disciplines/packet_corruption', json={'invalid': 'data'})
         self.assertEqual(response.status_code, 422)
 
+    def test_bad_request(self):
+        response = self.client.post('/api/disciplines/packet_corruption')
+        self.assertEqual(response.status_code, 400)
+
     def test_can_be_cleared(self):
         response = self.client.post('/api/disciplines/packet_corruption/clear')
         self.assertEqual(response.status_code, 200)

@@ -50,6 +50,10 @@ class TestPacketDuplication(unittest.TestCase):
         response = self.client.post('/api/disciplines/packet_duplication', json={'invalid': 'data'})
         self.assertEqual(response.status_code, 422)
 
+    def test_bad_request(self):
+        response = self.client.post('/api/disciplines/packet_duplication')
+        self.assertEqual(response.status_code, 400)
+
     def test_can_be_cleared(self):
         response = self.client.post('/api/disciplines/packet_duplication/clear')
         self.assertEqual(response.status_code, 200)
