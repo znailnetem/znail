@@ -1,5 +1,5 @@
-import types
 import functools
+import types
 
 import flask
 import flask_cors
