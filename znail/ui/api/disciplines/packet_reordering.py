@@ -14,7 +14,7 @@ class PacketReorderingSchema(marshmallow.Schema):
 
 packet_reordering_schema = PacketReorderingSchema()
 packet_reordering_model = api.model(
-    'PacketRateControl', {
+    'PacketReordering', {
         'milliseconds': flask_restplus.fields.Integer(min=0),
         'percent': flask_restplus.fields.Float(min=0, max=100),
     })
