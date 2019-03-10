@@ -34,7 +34,7 @@ def index():
         ])
     network_control_summary = OrderedDict(
         [
-            ('Disconnect', _get_status('/disconnect', 'disconnected')),
+            ('Disconnect', _get_status('/disconnect', 'disconnect')),
             ('Whitelist', _get_status('/whitelist')),
             ('DNS Override', _get_status('/dnsoverride')),
             ('IP Redirect', _get_status('/ipredirect')),
@@ -323,19 +323,19 @@ def network_disconnect():
     message = None
 
     if flask.request.method == 'POST':
-        network_disconnected = requests.get(endpoint, timeout=2).json()['disconnected']
-        response = requests.post(endpoint, timeout=2, json={'disconnect': not network_disconnected})
+        network_disconnect = requests.get(endpoint, timeout=2).json()['disconnect']
+        response = requests.post(endpoint, timeout=2, json={'disconnect': not network_disconnect})
         success = response.ok
         message = response.json()['message']
 
-    network_disconnected = requests.get(endpoint, timeout=2).json()['disconnected']
+    network_disconnect = requests.get(endpoint, timeout=2).json()['disconnect']
     return _render_template(
         'network_disconnect.html',
         current_page='network_disconnect',
         method=flask.request.method,
         success=success,
         message=message,
-        network_disconnected=network_disconnected)
+        network_disconnect=network_disconnect)
 
 
 @app.route('/network_whitelist', methods=['GET', 'POST'])

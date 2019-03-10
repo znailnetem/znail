@@ -24,7 +24,7 @@ class TestDisconnect(unittest.TestCase):
     def test_empty(self):
         response = self.client.get('/api/disconnect')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {'disconnected': False})
+        self.assertEqual(response.json, {'disconnect': False})
 
     def test_can_be_set(self):
         response = self.client.post('/api/disconnect', json={'disconnect': True})
@@ -35,7 +35,7 @@ class TestDisconnect(unittest.TestCase):
 
         response = self.client.get('/api/disconnect')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {'disconnected': True})
+        self.assertEqual(response.json, {'disconnect': True})
 
     def test_can_be_updated(self):
         response = self.client.post('/api/disconnect', json={'disconnect': True})
@@ -46,7 +46,7 @@ class TestDisconnect(unittest.TestCase):
 
         response = self.client.get('/api/disconnect')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {'disconnected': True})
+        self.assertEqual(response.json, {'disconnect': True})
 
         response = self.client.post('/api/disconnect', json={'disconnect': False})
         self.assertEqual(response.status_code, 200)
@@ -56,7 +56,7 @@ class TestDisconnect(unittest.TestCase):
 
         response = self.client.get('/api/disconnect')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {'disconnected': False})
+        self.assertEqual(response.json, {'disconnect': False})
 
     def test_can_not_be_set_to_invalid_value(self):
         response = self.client.post('/api/disconnect', json={'invalid': 'data'})

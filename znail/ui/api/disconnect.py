@@ -24,7 +24,7 @@ class DisconnectResource(flask_restplus.Resource):
 
     def get(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        return {'disconnected': not _usb.enabled}, 200
+        return {'disconnect': not _usb.enabled}, 200
 
     def post(self):
 
