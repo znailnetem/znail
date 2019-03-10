@@ -9,7 +9,7 @@ import marshmallow
 
 from znail.netem.usb import Usb
 from znail.ui import api
-from znail.ui.util import handle_json_request
+from znail.ui.util import json_request_handler
 
 
 class DisconnectSchema(marshmallow.Schema):
@@ -17,32 +17,31 @@ class DisconnectSchema(marshmallow.Schema):
 
 
 _usb = Usb()
+disconnect_schema = DisconnectSchema()
+disconnect_model = api.model('Disconnect', {
+    'disconnect': flask_restplus.fields.Boolean(),
+})
 
 
 @api.route('/api/disconnect')
 class DisconnectResource(flask_restplus.Resource):
 
+    @api.response(200, 'Success', disconnect_model)
     def get(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         return {'disconnect': not _usb.enabled}, 200
 
-    def post(self):
-
-        def _post(data):
-            if data['disconnect']:
-                _usb.disable_all_usb_ports()
-            else:
-                _usb.enable_all_usb_ports()
-
-        return handle_json_request(DisconnectSchema(), _post)
+    @json_request_handler(disconnect_schema, disconnect_model)
+    def post(self, data):
+        if data['disconnect']:
+            _usb.disable_all_usb_ports()
+        else:
+            _usb.enable_all_usb_ports()
 
 
 @api.route('/api/disconnect/clear')
 class ClearDisconnectResource(flask_restplus.Resource):
 
-    def post(self):
-
-        def _post(data):
-            _usb.enable_all_usb_ports()
-
-        return handle_json_request(None, _post)
+    @json_request_handler()
+    def post(self, data):
+        _usb.enable_all_usb_ports()

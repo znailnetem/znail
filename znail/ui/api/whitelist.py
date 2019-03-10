@@ -5,7 +5,7 @@ import marshmallow
 
 from znail.netem.tc import Tc
 from znail.ui import api
-from znail.ui.util import handle_json_request
+from znail.ui.util import json_request_handler
 
 
 class WhiteListSchema(marshmallow.Schema):
@@ -20,6 +20,12 @@ class WhiteListSchema(marshmallow.Schema):
         return data
 
 
+white_list_schema = WhiteListSchema(many=True)
+white_list_model = [api.model('WhiteList', {
+    'ip_address': flask_restplus.fields.String(),
+})]
+
+
 @api.route('/api/whitelist')
 class WhiteListResource(flask_restplus.Resource):
 
@@ -27,16 +33,14 @@ class WhiteListResource(flask_restplus.Resource):
         super().__init__(*args, **kwargs)
         self._tc = Tc.adapter('eth1')
 
+    @api.response(200, 'Success', white_list_model)
     def get(self):
         return [{'ip_address': ip_address} for ip_address in self._tc.whitelist], 200
 
-    def post(self):
-
-        def _post(data):
-            self._tc.whitelist = list(set([entry['ip_address'] for entry in data]))
-            self._tc.apply(self._tc.disciplines)
-
-        return handle_json_request(WhiteListSchema(many=True), _post)
+    @json_request_handler(white_list_schema, white_list_model)
+    def post(self, data):
+        self._tc.whitelist = list(set([entry['ip_address'] for entry in data]))
+        self._tc.apply(self._tc.disciplines)
 
 
 @api.route('/api/whitelist/clear')
@@ -46,10 +50,7 @@ class ClearWhiteListResource(flask_restplus.Resource):
         super().__init__(*args, **kwargs)
         self._tc = Tc.adapter('eth1')
 
-    def post(self):
-
-        def _post(data):
-            self._tc.whitelist = []
-            self._tc.apply(self._tc.disciplines)
-
-        return handle_json_request(None, _post)
+    @json_request_handler()
+    def post(self, data):
+        self._tc.whitelist = []
+        self._tc.apply(self._tc.disciplines)

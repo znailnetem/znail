@@ -5,7 +5,7 @@ import marshmallow
 
 from znail.netem.ipredirect import IpRedirect, IpRedirectDescriptor
 from znail.ui import api
-from znail.ui.util import handle_json_request
+from znail.ui.util import json_request_handler
 
 
 def _validate_port(n):
@@ -44,11 +44,23 @@ class IpRedirectSchema(marshmallow.Schema):
 
 
 _ip_redirects = IpRedirect()
+ip_redirect_schema = IpRedirectSchema(many=True)
+ip_redirect_model = [
+    api.model(
+        'IpRedirect', {
+            'ip': flask_restplus.fields.String(),
+            'port': flask_restplus.fields.Integer(min=0, max=65535),
+            'destination_ip': flask_restplus.fields.String(),
+            'destination_port': flask_restplus.fields.Integer(min=0, max=65535),
+            'protocol': flask_restplus.fields.String(),
+        })
+]
 
 
 @api.route('/api/ipredirect')
 class IpRedirectResource(flask_restplus.Resource):
 
+    @api.response(200, 'Success', ip_redirect_model)
     def get(self):
         return [
             {
@@ -60,20 +72,14 @@ class IpRedirectResource(flask_restplus.Resource):
             } for redirect in _ip_redirects.redirects
         ], 200
 
-    def post(self):
-
-        def _post(data):
-            _ip_redirects.apply(set(data))
-
-        return handle_json_request(IpRedirectSchema(many=True), _post)
+    @json_request_handler(ip_redirect_schema, ip_redirect_model)
+    def post(self, data):
+        _ip_redirects.apply(set(data))
 
 
 @api.route('/api/ipredirect/clear')
 class ClearIpRedirectResource(flask_restplus.Resource):
 
-    def post(self):
-
-        def _post(data):
-            _ip_redirects.clear()
-
-        return handle_json_request(None, _post)
+    @json_request_handler()
+    def post(self, data):
+        _ip_redirects.clear()
