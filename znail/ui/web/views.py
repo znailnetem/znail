@@ -358,7 +358,6 @@ def network_whitelist():
             success = response.ok
             message = response.json()['message']
         else:
-            print(whitelist)
             response = requests.post(endpoint, timeout=2, json=whitelist)
             success = response.ok
             message = response.json()['message']
