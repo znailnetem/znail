@@ -2,9 +2,11 @@
 
 {% block content %}
 <div class="container-fluid">
-    <h1>Network Emulator</h1>
+    <h1>About</h1>
     <hr/>
-    <p>The Network Emulator can be used to emulate various network conditions and can manipulate the flow of packets on the network.</p>
+    <p>Znail can be used to emulate various network conditions and can manipulate the flow of packets on the network.</p>
+    <p>Znail is operated using this user interface, or its <a href="/api/swagger">API</a>.</p>
+    <hr/>
     <div class="mermaid" style="width=100%; height=400px; align: center;">
         graph LR
         network --- eth0
@@ -14,8 +16,8 @@
         end
         eth1 --- sut
     </div>
-    <p>To be able to affect network behaviour, the Network Emulator is connected to the <abbr title="System Under Test">SUT</abbr> and the network that the <abbr title="System Under Test">SUT</abbr> should access is connected to the Network Emulator. In this configuration, the Network Emulator effectively acts as a network switch.</p>
-    <p>To manipulate network packets, the Network Emulator makes use of a collection of standard Linux tools:</p>
+    <p>To be able to affect network behaviour, Znail is connected to the <abbr title="System Under Test">SUT</abbr> and the network that the <abbr title="System Under Test">SUT</abbr> should access is connected to Znail. In this configuration, Znail effectively acts as a network switch.</p>
+    <p>To manipulate network packets, Znail makes use of a collection of standard Linux tools:</p>
     <ul>
         <li>iptables is used to direct traffic flow
             <ul>
