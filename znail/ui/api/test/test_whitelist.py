@@ -33,7 +33,7 @@ class TestWhiteList(unittest.TestCase):
 
         response = self.client.get('/api/whitelist')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, ['1.2.3.4'])
+        self.assertEqual(response.json, [{'ip_address': '1.2.3.4'}])
 
     def test_multiple_entries(self):
         response = self.client.post(
@@ -47,7 +47,8 @@ class TestWhiteList(unittest.TestCase):
 
         response = self.client.get('/api/whitelist')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(sorted(response.json), sorted(['1.2.3.4', '2.3.4.5']))
+        self.assertIn({'ip_address': '1.2.3.4'}, response.json)
+        self.assertIn({'ip_address': '2.3.4.5'}, response.json)
 
     def test_can_not_be_set_to_invalid_value(self):
         response = self.client.post('/api/whitelist', json={'invalid': 'data'})

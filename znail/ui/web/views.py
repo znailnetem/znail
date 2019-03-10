@@ -349,19 +349,18 @@ def network_whitelist():
         whitelist = requests.get(endpoint, timeout=2).json()
 
         if 'remove_from_whitelist' in flask.request.form:
-            whitelist.remove(flask.request.form['remove_from_whitelist'])
+            whitelist.remove({'ip_address': flask.request.form['remove_from_whitelist']})
         if 'add_to_whitelist' in flask.request.form:
-            whitelist.append(flask.request.form['add_to_whitelist'])
+            whitelist.append({'ip_address': flask.request.form['add_to_whitelist']})
 
         if not whitelist:
             response = requests.post(clear_endpoint)
             success = response.ok
             message = response.json()['message']
         else:
+            print(whitelist)
             response = requests.post(
-                endpoint, timeout=2, json=[{
-                    'ip_address': ip_address
-                } for ip_address in whitelist])
+                endpoint, timeout=2, json=whitelist)
             success = response.ok
             message = response.json()['message']
 
@@ -372,7 +371,7 @@ def network_whitelist():
         method=flask.request.method,
         success=success,
         message=message,
-        whitelist=sorted(whitelist))
+        whitelist=sorted(map(lambda entry: entry['ip_address'], whitelist)))
 
 
 @app.route('/network_dnsoverride', methods=['GET', 'POST'])

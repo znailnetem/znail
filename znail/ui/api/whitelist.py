@@ -28,7 +28,7 @@ class WhiteListResource(flask_restplus.Resource):
         self._tc = Tc.adapter('eth1')
 
     def get(self):
-        return self._tc.whitelist, 200
+        return [{'ip_address': ip_address} for ip_address in self._tc.whitelist], 200
 
     def post(self):
 
