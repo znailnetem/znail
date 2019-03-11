@@ -32,7 +32,7 @@ To set up the development environment on recent Ubuntu systems, run the followin
 
     sudo apt update
     sudo apt install python3-pip
-    sudo pip3 install "pipenv==9.0.2"
+    sudo pip3 install "pipenv==2018.11.26"
 
 # Special Thanks
 
