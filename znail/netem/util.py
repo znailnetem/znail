@@ -9,6 +9,7 @@ logger.addHandler(logging.NullHandler())
 hosts_file = os.getenv('HOSTS_FILE', '/etc/hosts')
 iptables = os.getenv('IPTABLES_COMMAND', 'iptables')
 tc = os.getenv('TC_COMMAND', 'tc')
+tcpdump = os.getenv('TCPDUMP_COMMAND', 'tcpdump')
 hub_ctrl = os.getenv('HUB_CTRL_COMMAND', 'hub-ctrl')
 service = os.getenv('SERVICE_COMMAND', 'service')
 

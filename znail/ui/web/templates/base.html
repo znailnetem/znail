@@ -134,6 +134,17 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
+                                {% if current_page == 'network_capture' %}
+                                <a class="nav-link active" href="/network_capture">
+                                    Capture <span class="sr-only">(current)</span>
+                                </a>
+                                {% else %}
+                                <a class="nav-link" href="/network_capture">
+                                    Capture
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item">
                                 {% if current_page == 'network_disconnect' %}
                                 <a class="nav-link active" href="/network_disconnect">
                                     Disconnect <span class="sr-only">(current)</span>

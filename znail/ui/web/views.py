@@ -407,6 +407,14 @@ def packet_rate():
         examples=examples)
 
 
+@app.route('/network_capture', methods=['GET'])
+def network_capture():
+    return _render_template(
+        'network_capture.html',
+        current_page='network_capture',
+        host_url=flask.request.host_url)
+
+
 @app.route('/network_disconnect', methods=['GET', 'POST'])
 def network_disconnect():
     endpoint = _api_url('/disconnect')

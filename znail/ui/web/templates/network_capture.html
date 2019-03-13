@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Network Capture</h1>
+    <hr/>
+    <p>
+        Network packages transfered to and from the <abbr title="System Under Test">SUT</abbr> can be captured in PCAP format.
+        Captured packages can then be analyzed using tools like Wireshark.
+    </p>
+    <p>
+        Download the <a href="/capture.pcap">capture.pcap</a> file to begin.
+        Package capturing starts automatically and continues until the download stops.
+    </p>
+    <p>
+        Captured packages can be streamed directly to Wireshark:
+        <code>
+            curl {{ host_url }}capture.pcap | wireshark -k -i -
+        </code>
+    </p>
+    <hr/>
+</div>
+{% endblock %}
