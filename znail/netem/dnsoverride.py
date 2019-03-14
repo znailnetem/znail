@@ -6,7 +6,7 @@ from pprint import pformat
 
 from python_hosts import Hosts, HostsEntry
 
-from .util import iptables, restore_hosts_file_to_default, run_in_shell, service
+from .util import iptables, restore_hosts_file_to_default, run_in_shell, systemctl
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
@@ -76,7 +76,8 @@ class DnsOverrides(object):
         self._reload_dnsmasq_service()
 
     def _reload_dnsmasq_service(self):
-        run_in_shell('{service} dnsmasq restart'.format(service=service))
+        run_in_shell('{systemctl} reset-failed dnsmasq'.format(systemctl=systemctl))
+        run_in_shell('{systemctl} restart dnsmasq'.format(systemctl=systemctl))
 
     def _redirect_all_dns_traffic_to_local_server(self):
         run_in_shell(

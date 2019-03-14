@@ -47,7 +47,7 @@ package: check doc
 
 run: SHELL := $(NODE_local_SHELL)
 run:
-	IPTABLES_COMMAND=echo TC_COMMAND=echo HUB_CTRL_COMMAND=echo SERVICE_COMMAND=echo HOSTS_FILE=/dev/null znail -p 8080 -d
+	IPTABLES_COMMAND=echo TC_COMMAND=echo HUB_CTRL_COMMAND=echo SYSTEMCTL_COMMAND=echo HOSTS_FILE=/dev/null znail -p 8080 -d
 
 venv: prepare_node_local
 

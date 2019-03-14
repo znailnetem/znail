@@ -11,7 +11,7 @@ iptables = os.getenv('IPTABLES_COMMAND', 'iptables')
 tc = os.getenv('TC_COMMAND', 'tc')
 tcpdump = os.getenv('TCPDUMP_COMMAND', 'tcpdump')
 hub_ctrl = os.getenv('HUB_CTRL_COMMAND', 'hub-ctrl')
-service = os.getenv('SERVICE_COMMAND', 'service')
+systemctl = os.getenv('SYSTEMCTL_COMMAND', 'service')
 
 
 def run_in_shell(command, timeout=1):
