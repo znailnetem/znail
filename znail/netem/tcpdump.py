@@ -1,7 +1,7 @@
 """
 Interact with the "tcpdump" command line utility.
 
-For more information about "tc", please see:
+For more information about "tcpdump", please see:
 https://www.tcpdump.org/manpages/tcpdump.1.html
 """
 import logging
