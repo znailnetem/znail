@@ -1,0 +1,13 @@
+[Unit]
+Description=Znail server.
+
+[Service]
+ExecStart=/usr/local/bin/znail
+Restart=always
+RestartSec=10
+User=root
+Group=root
+StartLimitBurst=10
+
+[Install]
+WantedBy=multi-user.target

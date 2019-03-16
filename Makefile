@@ -23,6 +23,7 @@ include maketools/doc.mk
 include maketools/pypi.mk
 include maketools/test.mk
 include maketools/version.mk
+include maketools/image.mk
 
 test: test_local
 static: static_local
@@ -59,7 +60,7 @@ format: prepare_node_local
 	@isort -j8 --multi-line 2 --apply --dont-skip '__init__.py' --line-width 100 $(FORMAT_SOURCES)
 
 .PHONY: clean
-clean: cleandoc
+clean: cleandoc cleanimage
 	rm -rf build/
 	rm -rf dist/
 	rm -f $(ROOT_PACKAGE)/version.py

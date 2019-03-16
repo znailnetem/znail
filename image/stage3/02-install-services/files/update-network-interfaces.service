@@ -1,0 +1,12 @@
+[Unit]
+Description=Update the /etc/network/interfaces file.
+Before=basic.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/update-network-interfaces
+RemainAfterExit=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
