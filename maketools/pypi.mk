@@ -1,9 +1,14 @@
 pypi: bdist sdist
 
-bdist:
-	python3 setup.py bdist_wheel
+dist_pypi_directory:
+	mkdir -p dist/pypi
 
-sdist:
+bdist: dist_pypi_directory
+	python3 setup.py bdist_wheel
+	mv dist/*.whl dist/pypi
+
+sdist: dist_pypi_directory
 	python3 setup.py sdist
+	mv dist/*.tar.gz dist/pypi
 
 package: pypi
