@@ -17,6 +17,7 @@ Znail can help you answer question about how that system behaves under various n
 * Emulate packet reordering
 * Emulate packet corruption
 * Control packet rate
+* Capture network packets
 * Emulate a disconnect (by powering down one of its network interfaces)
 * Override answers to DNS queries (by redirecting DNS traffic to its internal DNS server)
 * Redirect IP traffic from one host to another
@@ -26,13 +27,28 @@ Znail can be managed in one of two ways, using its web interface or its REST API
 
 # Development
 
-The Python environment requires that the `pip` and `pipenv` tools are installed.
+The Python environment requires that the `pip` tool is installed.
 
 To set up the development environment on recent Ubuntu systems, run the following commands:
 
     sudo apt update
-    sudo apt install python3-pip
-    sudo pip3 install "pipenv==2018.11.26"
+    sudo apt install python3-pip python3-venv
+
+To build and activate the virtual Python environment:
+
+    source ./activate
+
+To automatically format the code:
+
+    make format
+
+To run tests and static code analysis:
+
+    make check
+
+More information about what targets the build system provides:
+
+    make help
 
 # Special Thanks
 

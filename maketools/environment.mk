@@ -36,8 +36,11 @@ define TEST_NODE
 
 ./docker/markers/docker_node_$(1)_venv.marker: SHELL := $$(NODE_$(1)_SHELL)
 ./docker/markers/docker_node_$(1)_venv.marker: .SHELLFLAGS := $$(NODE_$(1)_SHELLFLAGS)
-./docker/markers/docker_node_$(1)_venv.marker: ./docker/markers/docker_node_$(1)_built.marker Pipfile setup.py
-	yes | pipenv update --dev
+./docker/markers/docker_node_$(1)_venv.marker: ./docker/markers/docker_node_$(1)_built.marker requirements.txt requirements-dev.txt setup.py
+	python3 -m venv .venv
+	pip3 install --upgrade setuptools pip wheel
+	pip3 install -r requirements-dev.txt -r requirements.txt
+	pip3 install -e .
 	touch $$@
 
 prepare_node_$(1): ./docker/markers/docker_node_$(1)_venv.marker
@@ -46,7 +49,8 @@ prepare_nodes: prepare_node_$(1)
 cleanvenv_$(1): SHELL := $$(NODE_$(1)_SHELL)
 cleanvenv_$(1): .SHELLFLAGS := $$(NODE_$(1)_SHELLFLAGS)
 cleanvenv_$(1):
-	-pipenv --rm
+	-rm -rf .venv/*
+	-rmdir .venv
 	rm -rf *.egg-info/
 	rm -f ./docker/markers/docker_node_$(1)_venv.marker
 
@@ -59,7 +63,7 @@ endef
 # exists, it is sourced by bash on startup.
 #
 # Lets use this feature to automatically activate the virtual environment.
-BASH_ENV := $(shell pipenv --venv 2>/dev/null || (pipenv --three --bare 2>/dev/null && pipenv --venv))/bin/activate
+BASH_ENV := .venv/bin/activate
 export BASH_ENV
 
 
