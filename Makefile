@@ -46,6 +46,7 @@ endif
 .PHONY: package
 package: check doc
 
+run: venv
 run: SHELL := $(NODE_local_SHELL)
 run:
 	IPTABLES_COMMAND=echo TC_COMMAND=echo HUB_CTRL_COMMAND=echo SYSTEMCTL_COMMAND=echo HOSTS_FILE=/dev/null znail -p 8080 -d
