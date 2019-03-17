@@ -25,6 +25,26 @@ Znail can help you answer question about how that system behaves under various n
 
 Znail can be managed in one of two ways, using its web interface or its REST API.
 
+# Getting Started
+
+The easiest way to get started with Znail is to generate a Rasbian image with Znail pre-installed.
+
+A virtual machine is used to build the image.
+`Vagrant` and the `vagrant-scp` plugin is required.
+
+To set up the environment on recent Ubuntu systems, run the following commands:
+
+    sudo apt update
+    sudo apt install vagrant
+    vagrant plugin install vagrant-scp
+
+To generate an image:
+
+    make image
+
+The resulting image can be found in the `dist/image` directory.
+The image can then be [installed](https://www.raspberrypi.org/documentation/installation/installing-images/README.md) on a Raspberry Pi.
+
 # Development
 
 The Python environment requires that the `pip` tool is installed.
