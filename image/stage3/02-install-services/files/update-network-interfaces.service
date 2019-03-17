@@ -1,6 +1,7 @@
 [Unit]
 Description=Update the /etc/network/interfaces file.
-Before=basic.target
+Before=network-pre.target
+Wants=network-pre.target
 
 [Service]
 Type=oneshot

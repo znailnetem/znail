@@ -1,11 +1,15 @@
 #!/bin/bash -e
 
-install -v -m 600 /vagrant/requirements.txt "${ROOTFS_DIR}/root/requirements.txt"
-install -v -m 600 /vagrant/dist/pypi/*.whl "${ROOTFS_DIR}/root/"
+install -d /opt/znail
+install -v -m 600 /vagrant/requirements.txt "${ROOTFS_DIR}/opt/znail/requirements.txt"
+install -v -m 600 /vagrant/dist/pypi/*.whl "${ROOTFS_DIR}/opt/znail"
+
+ln -s /opt/znail/venv/lib/python3.5/site-packages/znail/netem/data/hub-ctrl "${ROOTFS_DIR}"/usr/local/bin/hub-ctrl
 
 on_chroot << EOF
-pip3 uninstall --yes znail || true
-pip3 install -r /root/requirements.txt
-pip3 install /root/*.whl
-rm -f /root/requirements.txt /root/*.whl
+pushd /opt/znail
+source venv/bin/activate
+pip3 install -r requirements.txt
+pip3 install *.whl
+popd
 EOF

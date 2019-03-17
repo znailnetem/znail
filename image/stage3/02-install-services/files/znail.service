@@ -2,7 +2,7 @@
 Description=Znail server.
 
 [Service]
-ExecStart=/usr/local/bin/znail
+ExecStart=/opt/znail/venv/bin/znail
 Restart=always
 RestartSec=10
 User=root
