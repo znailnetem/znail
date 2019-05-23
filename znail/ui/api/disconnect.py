@@ -49,6 +49,8 @@ class DisconnectResource(flask_restplus.Resource):
             self.tc.apply(self.tc.disciplines)
 
     def _poll_network_interface(self, name):
+        if os.getenv('ZNAIL_FORCE_INTERFACE_UP', False):
+            return True
         return name in os.listdir('/sys/class/net/')
 
 
