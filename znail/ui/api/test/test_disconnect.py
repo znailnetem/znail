@@ -4,6 +4,7 @@ from unittest.mock import ANY, patch
 from znail.netem.tc import Tc
 from znail.netem.usb import Usb
 from znail.ui import app
+from znail.ui.api.disconnect import DisconnectResource
 
 
 class TestDisconnect(unittest.TestCase):
@@ -24,6 +25,10 @@ class TestDisconnect(unittest.TestCase):
         tc_apply_patcher = patch.object(Tc, 'apply')
         self.tc_apply = tc_apply_patcher.start()
         self.addCleanup(tc_apply_patcher.stop)
+
+        poll_network_interface_patcher = patch.object(DisconnectResource, '_poll_network_interface')
+        self.poll_network_interface = poll_network_interface_patcher.start()
+        self.addCleanup(poll_network_interface_patcher.stop)
 
         self.client = app.test_client()
 

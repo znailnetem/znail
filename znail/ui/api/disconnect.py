@@ -4,6 +4,9 @@ Emulates a network disconnect by powering down the built in USB hub.
 In many ways, this is equivalent of disconnecting the network cable.
 """
 
+import os
+import time
+
 import flask_restplus
 import marshmallow
 
@@ -41,7 +44,12 @@ class DisconnectResource(flask_restplus.Resource):
             _usb.disable_all_usb_ports()
         else:
             _usb.enable_all_usb_ports()
+            while not self._poll_network_interface('eth1'):
+                time.sleep(0.1)
             self.tc.apply(self.tc.disciplines)
+
+    def _poll_network_interface(self, name):
+        return name in os.listdir('/sys/class/net/')
 
 
 @api.route('/api/disconnect/clear')
