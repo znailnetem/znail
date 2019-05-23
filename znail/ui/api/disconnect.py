@@ -7,6 +7,7 @@ In many ways, this is equivalent of disconnecting the network cable.
 import flask_restplus
 import marshmallow
 
+from znail.netem.tc import Tc
 from znail.netem.usb import Usb
 from znail.ui import api
 from znail.ui.util import json_request_handler
@@ -26,9 +27,12 @@ disconnect_model = api.model('Disconnect', {
 @api.route('/api/disconnect')
 class DisconnectResource(flask_restplus.Resource):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.tc = Tc.adapter('eth1')
+
     @api.response(200, 'Success', disconnect_model)
     def get(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
         return {'disconnect': not _usb.enabled}, 200
 
     @json_request_handler(disconnect_schema, disconnect_model)
@@ -37,6 +41,7 @@ class DisconnectResource(flask_restplus.Resource):
             _usb.disable_all_usb_ports()
         else:
             _usb.enable_all_usb_ports()
+            self.tc.apply(self.tc.disciplines)
 
 
 @api.route('/api/disconnect/clear')

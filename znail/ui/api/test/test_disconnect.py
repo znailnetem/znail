@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import ANY, patch
 
+from znail.netem.tc import Tc
 from znail.netem.usb import Usb
 from znail.ui import app
 
@@ -15,6 +16,14 @@ class TestDisconnect(unittest.TestCase):
         enable_usb_ports_patcher = patch.object(Usb, '_enable_usb_ports')
         self.enable_usb_ports = enable_usb_ports_patcher.start()
         self.addCleanup(enable_usb_ports_patcher.stop)
+
+        tc_clear_patcher = patch.object(Tc, 'clear')
+        self.tc_clear = tc_clear_patcher.start()
+        self.addCleanup(tc_clear_patcher.stop)
+
+        tc_apply_patcher = patch.object(Tc, 'apply')
+        self.tc_apply = tc_apply_patcher.start()
+        self.addCleanup(tc_apply_patcher.stop)
 
         self.client = app.test_client()
 
@@ -72,3 +81,9 @@ class TestDisconnect(unittest.TestCase):
         self.assertEqual(response.json, {'message': 'ok'})
 
         self.enable_usb_ports.assert_called_once_with(ANY)
+
+    def test_queueing_disciplines_are_reapplied_on_reconnect(self):
+        self.client.post('/api/disconnect', json={'disconnect': True})
+        self.client.post('/api/disconnect', json={'disconnect': False})
+
+        self.tc_apply.assert_called_once_with(ANY)
