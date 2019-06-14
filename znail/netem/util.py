@@ -12,6 +12,7 @@ tc = os.getenv('TC_COMMAND', 'tc')
 tcpdump = os.getenv('TCPDUMP_COMMAND', 'tcpdump')
 hub_ctrl = os.getenv('HUB_CTRL_COMMAND', 'hub-ctrl')
 systemctl = os.getenv('SYSTEMCTL_COMMAND', 'service')
+shutdown = os.getenv('SHUTDOWN_COMMAND', 'shutdown')
 
 
 def run_in_shell(command, timeout=1):
@@ -29,6 +30,10 @@ def prepare_iptables():
     logger.info('Clearing IP tables NAT rules')
     run_in_shell('{iptables} -t nat -F'.format(iptables=iptables))
     run_in_shell('{iptables} -t nat -A POSTROUTING -o eth0 -j MASQUERADE'.format(iptables=iptables))
+
+
+def reboot():
+    run_in_shell('{shutdown} -r now'.format(shutdown=shutdown))
 
 
 def restore_hosts_file_to_default():
