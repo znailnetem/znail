@@ -27,7 +27,11 @@ Znail can be managed in one of two ways, using its web interface or its REST API
 
 # Getting Started
 
-The easiest way to get started with Znail is to generate a Rasbian image with Znail pre-installed.
+The easiest way to get started with Znail is to [download](https://github.com/znailnetem/znail/releases/latest) a Rasbian image with Znail pre-installed.
+
+The image can then be [installed](https://www.raspberrypi.org/documentation/installation/installing-images/README.md) on a Raspberry Pi.
+
+# Generating a Custom Image
 
 A virtual machine is used to build the image.
 `Vagrant` and the `vagrant-scp` plugin is required.
@@ -43,7 +47,6 @@ To generate an image:
     make image
 
 The resulting image can be found in the `dist/image` directory.
-The image can then be [installed](https://www.raspberrypi.org/documentation/installation/installing-images/README.md) on a Raspberry Pi.
 
 # Development
 
