@@ -10,7 +10,7 @@ setup(
     description='Network Emulator',
 
     maintainer='Andreas Nilsson',
-    maintainer_email='andreas.nilsson@zenterio.com',
+    maintainer_email='andni233@gmail.com',
 
     license='Apache License 2.0',
 
@@ -19,7 +19,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 3 - Beta',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
