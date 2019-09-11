@@ -11,6 +11,7 @@ setup(
 
     maintainer='Andreas Nilsson',
     maintainer_email='andni233@gmail.com',
+    url='https://github.com/znailnetem/znail',
 
     license='Apache License 2.0',
 
