@@ -5,7 +5,7 @@ install -v -m 600 /vagrant/requirements.txt "${ROOTFS_DIR}/opt/znail/requirement
 install -v -m 600 /vagrant/dist/pypi/*.whl "${ROOTFS_DIR}/opt/znail"
 
 rm -f "${ROOTFS_DIR}/usr/local/bin/hub-ctrl"
-ln -s /opt/znail/venv/lib/python3.5/site-packages/znail/netem/data/hub-ctrl "${ROOTFS_DIR}/usr/local/bin/hub-ctrl"
+ln -s /opt/znail/venv/lib/python3.7/site-packages/znail/netem/data/hub-ctrl "${ROOTFS_DIR}/usr/local/bin/hub-ctrl"
 
 on_chroot << EOF
 pushd /opt/znail
