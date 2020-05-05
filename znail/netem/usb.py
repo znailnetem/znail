@@ -28,31 +28,20 @@ class Usb(object):
         The built in network card remains unaffected by this.
         """
         logger.info('Disabling all USB ports')
-        hub_id = self._get_hub_id()
-        self._disable_usb_ports(hub_id)
+        self._disable_usb_ports()
         self._enabled = False
 
     def enable_all_usb_ports(self):
         """Enable all USB ports."""
         logger.info('Enabling all USB ports')
-        hub_id = self._get_hub_id()
-        self._enable_usb_ports(hub_id)
+        self._enable_usb_ports()
         self._enabled = True
 
-    def _disable_usb_ports(self, hub_id):
-        run_in_shell('{hub_ctrl} -h {hub_id} -P 2 -p 0'.format(hub_ctrl=hub_ctrl, hub_id=hub_id))
+    def _disable_usb_ports(self):
+        run_in_shell('{hub_ctrl} -b 1 -d 2 -P 2 -p 0'.format(hub_ctrl=hub_ctrl))
 
-    def _enable_usb_ports(self, hub_id):
-        run_in_shell('{hub_ctrl} -h {hub_id} -P 2 -p 1'.format(hub_ctrl=hub_ctrl, hub_id=hub_id))
-
-    def _get_hub_id(self):
-        with open('/proc/cpuinfo') as f:
-            if 'a020d3' in f.read():
-                logger.info('Running on a Raspberry Pi 3B+, hub_id is 1')
-                return 1
-            else:
-                logger.info('Not running on a Raspberry Pi 3B+, hub_id is 0')
-                return 0
+    def _enable_usb_ports(self):
+        run_in_shell('{hub_ctrl} -b 1 -d 2 -P 2 -p 1'.format(hub_ctrl=hub_ctrl))
 
     @property
     def enabled(self):
