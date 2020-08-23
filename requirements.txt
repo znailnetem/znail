@@ -6,3 +6,4 @@ flask-restplus==0.12.1
 marshmallow==2.15.1
 python-hosts==0.4.1
 requests==2.20.0
+Werkzeug==0.16.1

@@ -45,7 +45,7 @@ class TestDisconnect(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
 
-        self.disable_usb_ports.assert_called_once_with(ANY)
+        self.disable_usb_ports.assert_called_once_with()
 
         response = self.client.get('/api/disconnect')
         self.assertEqual(response.status_code, 200)
@@ -56,7 +56,7 @@ class TestDisconnect(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
 
-        self.disable_usb_ports.assert_called_once_with(ANY)
+        self.disable_usb_ports.assert_called_once_with()
 
         response = self.client.get('/api/disconnect')
         self.assertEqual(response.status_code, 200)
@@ -66,7 +66,7 @@ class TestDisconnect(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
 
-        self.enable_usb_ports.assert_called_once_with(ANY)
+        self.enable_usb_ports.assert_called_once_with()
 
         response = self.client.get('/api/disconnect')
         self.assertEqual(response.status_code, 200)
@@ -85,7 +85,7 @@ class TestDisconnect(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'ok'})
 
-        self.enable_usb_ports.assert_called_once_with(ANY)
+        self.enable_usb_ports.assert_called_once_with()
 
     def test_queueing_disciplines_are_reapplied_on_reconnect(self):
         self.client.post('/api/disconnect', json={'disconnect': True})

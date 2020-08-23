@@ -33,29 +33,26 @@ The image can then be [installed](https://www.raspberrypi.org/documentation/inst
 
 # Generating a Custom Image
 
-A virtual machine is used to build the image.
-`Vagrant` and the `vagrant-scp` plugin is required.
-
-To set up the environment on recent Ubuntu systems, run the following commands:
+To set up the environment on an Ubuntu 20.04 system, run the following commands:
 
     sudo apt update
-    sudo apt install vagrant
-    vagrant plugin install vagrant-scp
+    sudo apt install -y coreutils quilt parted qemu-user-static debootstrap zerofree zip dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl
 
 To generate an image:
 
     make image
 
 The resulting image can be found in the `dist/image` directory.
+Note that due to the way `pi-gen` works, portions of the `make image` target needs to run as root.
 
 # Development
 
 The Python environment requires that the `pip` tool is installed.
 
-To set up the development environment on recent Ubuntu systems, run the following commands:
+To set up the development environment on an Ubuntu 20.04 system, run the following commands:
 
     sudo apt update
-    sudo apt install python3-pip python3-venv
+    sudo apt install -y python3-pip python3-venv
 
 To build and activate the virtual Python environment:
 

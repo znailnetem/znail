@@ -19,21 +19,18 @@ OUTPUT_DIR=output
 ##################################################################
 ##################################################################
 
+_first: help
+
 include maketools/environment.mk
 include maketools/help.mk
-include maketools/doc.mk
 include maketools/pypi.mk
 include maketools/test.mk
 include maketools/version.mk
 include maketools/image.mk
 
-test: test_local
-static: static_local
 
 .PHONY: check
-check: SHELL := $(NODE_local_SHELL)
-check: .SHELLFLAGS := $(NODE_local_SHELLFLAGS)
-check: prepare_node_local static test
+check: venv static test
 ifeq ($(filter $(COVERAGE),y),y)
 	@echo
 	@echo Combined coverage for unit and system tests
@@ -53,12 +50,10 @@ run: SHELL := $(NODE_local_SHELL)
 run:
 	SHUTDOWN_COMMAND=echo IPTABLES_COMMAND=echo TC_COMMAND=echo HUB_CTRL_COMMAND=echo SYSTEMCTL_COMMAND=echo HOSTS_FILE=/dev/null znail -p 8080 -d
 
-venv: prepare_node_local
+venv: .venv
 
 .PHONY: format
-format: SHELL := $(NODE_local_SHELL)
-format: .SHELLFLAGS := $(NODE_local_SHELLFLAGS)
-format: prepare_node_local
+format:
 	@yapf --style .yapf --in-place --parallel $(FORMAT_SOURCES)
 	@isort -j8 --multi-line 2 --apply --dont-skip '__init__.py' --line-width 100 $(FORMAT_SOURCES)
 
