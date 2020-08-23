@@ -1,9 +1,9 @@
 
 .venv: requirements.txt requirements-dev.txt setup.py
 	python3 -m venv .venv
-	.venv/bin/pip3 install --upgrade setuptools pip wheel
-	.venv/bin/pip3 install -r requirements-dev.txt -r requirements.txt
-	.venv/bin/pip3 install -e .
+	.venv/bin/python3 -m pip install --upgrade setuptools pip wheel
+	.venv/bin/python3 -m pip install -r requirements-dev.txt -r requirements.txt
+	.venv/bin/python3 -m pip install -e .
 
 cleanvenv:
 	-rm -rf .venv/*
