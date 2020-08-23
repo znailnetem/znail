@@ -17,3 +17,5 @@ cleanvenv:
 # Lets use this feature to automatically activate the virtual environment.
 BASH_ENV := .venv/bin/activate
 export BASH_ENV
+
+SHELL := bash

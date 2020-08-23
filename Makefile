@@ -58,12 +58,11 @@ format:
 	@isort -j8 --multi-line 2 --apply --dont-skip '__init__.py' --line-width 100 $(FORMAT_SOURCES)
 
 .PHONY: clean
-clean: cleandoc cleanimage
+clean: cleanimage
 	rm -rf build/
-	rm -rf dist/
 	rm -f $(ROOT_PACKAGE)/version.py
 	rm -f .benchmark
 
 .PHONY: cleanup
-cleanup: clean cleanvenv cleannodes
-	rm -rf .venv
+cleanup: clean cleanvenv
+	rm -rf dist/
