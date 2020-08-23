@@ -1,0 +1,8 @@
+language: python
+
+install:
+  - bash activate
+
+script:
+  - make static
+  - make test
