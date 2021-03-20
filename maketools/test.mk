@@ -12,5 +12,4 @@ test:
 .PHONY: static
 static:
 	@flake8 $(ROOT_PACKAGE)
-	@pydocstyle $(ROOT_PACKAGE) --ignore=D1,D202,D203,D204,D212 --explain
 	@black -l120 --check $(FORMAT_SOURCES)
