@@ -6,12 +6,10 @@ from pprint import pformat
 
 from python_hosts import Hosts, HostsEntry
 
-from .util import iptables, restore_hosts_file_to_default, run_in_shell, systemctl
+from .util import iptables, restore_hosts_file_to_default, run_in_shell, systemctl, dnsmasq_overrides_file
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
-
-_dnsmasq_config_overrides_path = "/etc/dnsmasq.d/overrides"
 
 
 class DnsOverrideDescriptor:
@@ -119,12 +117,12 @@ class DnsOverrides:
         self._write_dnsmasq_config_file(overrides)
 
     def _write_dnsmasq_config_file(self, overrides):
-        with open(_dnsmasq_config_overrides_path, "w") as f:
+        with open(dnsmasq_overrides_file, "w") as f:
             f.writelines(["address=/{hostname}/\n".format(hostname=override.hostname) for override in overrides])
 
     def _clear_dnsmasq_config_overrides(self):
         logger.info("Cleaning dnsmasq config overrides")
         try:
-            os.unlink(_dnsmasq_config_overrides_path)
+            os.unlink(dnsmasq_overrides_file)
         except Exception:
             pass

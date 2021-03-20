@@ -1,5 +1,6 @@
 VERSION_STRING := 0.6.0
 ROOT_PACKAGE := znail
+SYSTEST_PACKAGE := systest
 
 .PHONY: help
 help:
@@ -53,21 +54,21 @@ test:
 
 .PHONY: static
 static:
-	@flake8 $(ROOT_PACKAGE)
-	@black -l120 --check $(ROOT_PACKAGE)
+	@flake8 $(ROOT_PACKAGE) $(SYSTEST_PACKAGE)
+	@black -l120 --check $(ROOT_PACKAGE) $(SYSTEST_PACKAGE)
 
 .PHONY: check
 check: venv static test
 
 run: venv
 run:
-	SHUTDOWN_COMMAND=echo IPTABLES_COMMAND=echo TC_COMMAND=echo HUB_CTRL_COMMAND=echo SYSTEMCTL_COMMAND=echo HOSTS_FILE=/dev/null znail -p 8080 -d
+	SHUTDOWN_COMMAND=echo IPTABLES_COMMAND=echo TC_COMMAND=echo HUB_CTRL_COMMAND=echo SYSTEMCTL_COMMAND=echo HOSTS_FILE=/dev/null DNSMASK_OVERRIDES_FILE=/dev/null znail -p 8080 -d
 
 venv: .venv
 
 .PHONY: format
 format:
-	@black -l120 $(ROOT_PACKAGE)
+	@black -l120 $(ROOT_PACKAGE) $(SYSTEST_PACKAGE)
 
 .PHONY: clean
 clean: cleanimage
@@ -119,6 +120,7 @@ image: pypi build/pi-gen
 	mkdir -p dist/image
 	rm -rf build/pi-gen/stage3 build/pi-gen/stage4 build/pi-gen/stage5
 	cp -r image/* build/pi-gen/
+	cp -r requirements.txt dist/pypi/*.whl build/pi-gen/stage3/01-install-python-packages/files
 	cd build/pi-gen && sudo ./build-docker.sh
 
 cleanimage:

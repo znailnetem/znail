@@ -6,13 +6,14 @@ from textwrap import dedent
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
+dnsmasq_overrides_file = os.getenv("DNSMASK_OVERRIDES_FILE", "/etc/dnsmasq.d/overrides")
 hosts_file = os.getenv("HOSTS_FILE", "/etc/hosts")
+hub_ctrl = os.getenv("HUB_CTRL_COMMAND", "hub-ctrl")
 iptables = os.getenv("IPTABLES_COMMAND", "iptables")
+shutdown = os.getenv("SHUTDOWN_COMMAND", "shutdown")
+systemctl = os.getenv("SYSTEMCTL_COMMAND", "systemctl")
 tc = os.getenv("TC_COMMAND", "tc")
 tcpdump = os.getenv("TCPDUMP_COMMAND", "tcpdump")
-hub_ctrl = os.getenv("HUB_CTRL_COMMAND", "hub-ctrl")
-systemctl = os.getenv("SYSTEMCTL_COMMAND", "systemctl")
-shutdown = os.getenv("SHUTDOWN_COMMAND", "shutdown")
 
 
 def run_in_shell(command, timeout=1):
