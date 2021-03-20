@@ -6,7 +6,7 @@ from .packet_delay import PacketDelayPage  # noqa
 
 @component
 @requires(page_loader="PageLoader", args=['http://localhost/network_whitelist'])
-class WhitelistPage(object):
+class WhitelistPage:
 
     def __init__(self, page_loader):
         self._page_loader = page_loader

@@ -41,7 +41,7 @@ def handle_json_request(schema, action, *args, **kwargs):
     return {"message": "ok"}, 200
 
 
-class _NoneAttributes(object):
+class _NoneAttributes:
     def __getattribute__(self, attr):
         return None
 

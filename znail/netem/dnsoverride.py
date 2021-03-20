@@ -14,7 +14,7 @@ logger.addHandler(logging.NullHandler())
 _dnsmasq_config_overrides_path = "/etc/dnsmasq.d/overrides"
 
 
-class DnsOverrideDescriptor(object):
+class DnsOverrideDescriptor:
     def __init__(self, hostname, ip_address=None):
         self._hostname = hostname
         self._ip_address = ip_address
@@ -42,7 +42,7 @@ class DnsOverrideDescriptor(object):
         )
 
 
-class DnsOverrides(object):
+class DnsOverrides:
     def __init__(self):
         self._override_descriptors = []
 

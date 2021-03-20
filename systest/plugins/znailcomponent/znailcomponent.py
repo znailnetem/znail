@@ -18,7 +18,7 @@ class ZnailExtension(AbstractExtension):
     def __init__(self, config, instances):
 
         @component()
-        class Znail(object):
+        class Znail:
 
             def __init__(
                     self,

@@ -9,7 +9,7 @@ import functools
 from .util import run_in_shell, tc
 
 
-class Tc(object):
+class Tc:
     def __init__(self, adapter):
         self._adapter = adapter
         self._queueing_disciplines = {}

@@ -7,7 +7,7 @@ from ..util import assert_danger_alert_is_shown, assert_has_title, assert_succes
 
 @component
 @requires(page_loader="PageLoader", args=['http://localhost/network_dnsoverride'])
-class DnsOverridePage(object):
+class DnsOverridePage:
 
     def __init__(self, page_loader):
         self._page_loader = page_loader

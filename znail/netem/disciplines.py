@@ -6,7 +6,7 @@ http://man7.org/linux/man-pages/man8/tc.8.html
 """
 
 
-class QueueingDiscipline(object):
+class QueueingDiscipline:
     """Base class for all queueing disciplines."""
 
     def __init__(self, name, discipline):

@@ -12,7 +12,7 @@ from .util import tcpdump
 logger = logging.getLogger(__name__)
 
 
-class TcpDump(object):
+class TcpDump:
     def __init__(self, adapter):
         self._adapter = adapter
 

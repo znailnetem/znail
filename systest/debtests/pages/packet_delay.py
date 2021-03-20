@@ -18,7 +18,7 @@ delay_examples = [
 
 @component
 @requires(page_loader="PageLoader", args=['http://localhost/packet_delay'])
-class PacketDelayPage(object):
+class PacketDelayPage:
 
     def __init__(self, page_loader):
         self._page_loader = page_loader

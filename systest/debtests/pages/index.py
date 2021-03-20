@@ -15,7 +15,7 @@ from .packet_reordering import PacketReorderingPage  # noqa
 
 @component
 @requires(page_loader="PageLoader", args=['http://localhost/'])
-class IndexPage(object):
+class IndexPage:
 
     def __init__(self, page_loader):
         self._page_loader = page_loader

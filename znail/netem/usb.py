@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 
-class Usb(object):
+class Usb:
     def __init__(self):
         self._enabled = True
 

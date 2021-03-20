@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 
-class IpRedirectDescriptor(object):
+class IpRedirectDescriptor:
     def __init__(self, ip, port, destination_ip, destination_port, protocol):
         self.ip = ip
         self.port = port
@@ -49,7 +49,7 @@ class IpRedirectDescriptor(object):
         )
 
 
-class IpRedirect(object):
+class IpRedirect:
     def __init__(self):
         self._redirects = []
 

@@ -3,7 +3,7 @@ from zaf.component.decorator import component, requires
 
 @component(name="PageLoader")
 @requires(driver='Webdriver', instance=True)
-class PageLoader(object):
+class PageLoader:
 
     def __init__(self, url, driver):
         self._url = url

@@ -29,7 +29,7 @@ rate_examples = [
 
 @component
 @requires(page_loader="PageLoader", args=['http://localhost/packet_rate_control'])
-class PacketRateControlPage(object):
+class PacketRateControlPage:
 
     def __init__(self, page_loader):
         self._page_loader = page_loader
