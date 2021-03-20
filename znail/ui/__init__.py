@@ -5,10 +5,9 @@ import flask
 import flask_cors
 import flask_restplus
 
-app = flask.Flask('znail', static_folder='ui/web/static', template_folder='ui/web/templates')
+app = flask.Flask("znail", static_folder="ui/web/static", template_folder="ui/web/templates")
 flask_cors.CORS(app)
-api = flask_restplus.Api(
-    version='1.0', title='Znail', default='Znail', default_label='', doc='/api/swagger')
+api = flask_restplus.Api(version="1.0", title="Znail", default="Znail", default_label="", doc="/api/swagger")
 
 
 def lazy_api_initialization_wrapper(app, api):
@@ -40,7 +39,6 @@ lazy_api_initialization_wrapper(app, api)
 
 
 def api_route(self, *args, **kwargs):
-
     def wrapper(cls):
         self.add_resource(cls, *args, **kwargs)
         return cls

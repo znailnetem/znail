@@ -22,23 +22,24 @@ def perform_health_checks():
             _check_that_the_br_netfilter_kernel_module_is_loaded(),
             _check_that_the_bridge_interface_is_up(),
             _check_that_the_dnsmasq_server_is_running(),
-        ])
+        ]
+    )
 
 
 def _check_that_the_netem_kernel_module_is_loaded():
-    return _run_check('The netem kernel module is loaded', 'lsmod | grep sch_netem')
+    return _run_check("The netem kernel module is loaded", "lsmod | grep sch_netem")
 
 
 def _check_that_the_br_netfilter_kernel_module_is_loaded():
-    return _run_check('The br_netfilter kernel module is loaded', 'lsmod | grep sch_netem')
+    return _run_check("The br_netfilter kernel module is loaded", "lsmod | grep sch_netem")
 
 
 def _check_that_the_bridge_interface_is_up():
-    return _run_check('The bridge interface is up', 'cat /sys/class/net/br0/operstate | grep up')
+    return _run_check("The bridge interface is up", "cat /sys/class/net/br0/operstate | grep up")
 
 
 def _check_that_the_dnsmasq_server_is_running():
-    return _run_check('The dnsmasq service is running', 'systemctl status dnsmasq --no-pager')
+    return _run_check("The dnsmasq service is running", "systemctl status dnsmasq --no-pager")
 
 
 def _run_check(name, command):

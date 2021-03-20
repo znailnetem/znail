@@ -22,41 +22,42 @@ class DisconnectSchema(marshmallow.Schema):
 
 _usb = Usb()
 disconnect_schema = DisconnectSchema()
-disconnect_model = api.model('Disconnect', {
-    'disconnect': flask_restplus.fields.Boolean(),
-})
+disconnect_model = api.model(
+    "Disconnect",
+    {
+        "disconnect": flask_restplus.fields.Boolean(),
+    },
+)
 
 
-@api.route('/api/disconnect')
+@api.route("/api/disconnect")
 class DisconnectResource(flask_restplus.Resource):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tc = Tc.adapter('eth1')
+        self.tc = Tc.adapter("eth1")
 
-    @api.response(200, 'Success', disconnect_model)
+    @api.response(200, "Success", disconnect_model)
     def get(self, *args, **kwargs):
-        return {'disconnect': not _usb.enabled}, 200
+        return {"disconnect": not _usb.enabled}, 200
 
     @json_request_handler(disconnect_schema, disconnect_model)
     def post(self, data):
-        if data['disconnect']:
+        if data["disconnect"]:
             _usb.disable_all_usb_ports()
         else:
             _usb.enable_all_usb_ports()
-            while not self._poll_network_interface('eth1'):
+            while not self._poll_network_interface("eth1"):
                 time.sleep(0.1)
             self.tc.apply(self.tc.disciplines)
 
     def _poll_network_interface(self, name):
-        if os.getenv('ZNAIL_FORCE_INTERFACE_UP', False):
+        if os.getenv("ZNAIL_FORCE_INTERFACE_UP", False):
             return True
-        return name in os.listdir('/sys/class/net/')
+        return name in os.listdir("/sys/class/net/")
 
 
-@api.route('/api/disconnect/clear')
+@api.route("/api/disconnect/clear")
 class ClearDisconnectResource(flask_restplus.Resource):
-
     @json_request_handler()
     def post(self, data):
         _usb.enable_all_usb_ports()

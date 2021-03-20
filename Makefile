@@ -10,14 +10,9 @@ ifndef BUILD_NUMBER
 endif
 
 PYTHON := python3
-
 PY_SOURCES := $(shell find $(ROOT_PACKAGE) -type f -name '*.py')
 FORMAT_SOURCES := $(shell find $(ROOT_PACKAGE) -name '*.py' -not -path '*__pycache__*')
-
 OUTPUT_DIR=output
-
-##################################################################
-##################################################################
 
 _first: help
 
@@ -53,8 +48,7 @@ venv: .venv
 
 .PHONY: format
 format:
-	@yapf --style .yapf --in-place --parallel $(FORMAT_SOURCES)
-	@isort -j8 --multi-line 2 --apply --dont-skip '__init__.py' --line-width 100 $(FORMAT_SOURCES)
+	@black -l120 $(FORMAT_SOURCES)
 
 .PHONY: clean
 clean: cleanimage

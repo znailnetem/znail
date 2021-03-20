@@ -10,7 +10,6 @@ from .util import run_in_shell, tc
 
 
 class Tc(object):
-
     def __init__(self, adapter):
         self._adapter = adapter
         self._queueing_disciplines = {}
@@ -42,8 +41,7 @@ class Tc(object):
 
     def clear(self):
         # When deleted, the root qdisc is automatically replaced with the default.
-        run_in_shell(
-            '{tc} qdisc del dev {adapter} root || true'.format(tc=tc, adapter=self._adapter))
+        run_in_shell("{tc} qdisc del dev {adapter} root || true".format(tc=tc, adapter=self._adapter))
 
     def _setup_queueing_disciplines(self):
         # If there is nothing to be done, stick with the default queueing discipline.
@@ -52,30 +50,31 @@ class Tc(object):
 
         # Sets up a root queue that sends all traffic to the impairment queue.
         run_in_shell(
-            '{tc} qdisc add dev {adapter} root '
-            'handle 1: prio bands 2 '
-            'priomap 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1'.format(tc=tc, adapter=self._adapter))
+            "{tc} qdisc add dev {adapter} root "
+            "handle 1: prio bands 2 "
+            "priomap 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1".format(tc=tc, adapter=self._adapter)
+        )
 
         # Sets up a queue where we can send traffic that is not to be impaired.
-        run_in_shell(
-            '{tc} qdisc add dev {adapter} parent 1:1 '
-            'handle 10: pfifo'.format(tc=tc, adapter=self._adapter))
+        run_in_shell("{tc} qdisc add dev {adapter} parent 1:1 " "handle 10: pfifo".format(tc=tc, adapter=self._adapter))
 
         # Sets up the impairment queue.
         disciplines = list(self._queueing_disciplines.values())
         run_in_shell(
-            '{tc} qdisc add dev {adapter} parent 1:2 '
-            'handle 20: {discipline}'.format(
-                tc=tc, adapter=self._adapter, discipline=disciplines[0].discipline))
+            "{tc} qdisc add dev {adapter} parent 1:2 "
+            "handle 20: {discipline}".format(tc=tc, adapter=self._adapter, discipline=disciplines[0].discipline)
+        )
         for parent_handle, discipline in enumerate(disciplines[1:], start=20):
             run_in_shell(
-                '{tc} qdisc add dev {adapter} parent '
-                '{parent_handle}: handle {handle}: {discipline}'.format(
+                "{tc} qdisc add dev {adapter} parent "
+                "{parent_handle}: handle {handle}: {discipline}".format(
                     tc=tc,
                     adapter=self._adapter,
                     parent_handle=parent_handle,
                     handle=parent_handle + 1,
-                    discipline=discipline.discipline))
+                    discipline=discipline.discipline,
+                )
+            )
 
     def _setup_whitelist(self):
         # If there is nothing to be done, stick with the default queueing discipline.
@@ -84,10 +83,12 @@ class Tc(object):
 
         for ip in self._whitelist:
             run_in_shell(
-                '{tc} filter add dev {adapter} parent 1: '
-                'protocol ip prio 1 u32 '
-                'match ip dst {ip}/32 flowid 1:1'.format(tc=tc, adapter=self._adapter, ip=ip))
+                "{tc} filter add dev {adapter} parent 1: "
+                "protocol ip prio 1 u32 "
+                "match ip dst {ip}/32 flowid 1:1".format(tc=tc, adapter=self._adapter, ip=ip)
+            )
             run_in_shell(
-                '{tc} filter add dev {adapter} parent 1: '
-                'protocol ip prio 1 u32 '
-                'match ip src {ip}/32 flowid 1:1'.format(tc=tc, adapter=self._adapter, ip=ip))
+                "{tc} filter add dev {adapter} parent 1: "
+                "protocol ip prio 1 u32 "
+                "match ip src {ip}/32 flowid 1:1".format(tc=tc, adapter=self._adapter, ip=ip)
+            )

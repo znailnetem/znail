@@ -13,16 +13,15 @@ logger = logging.getLogger(__name__)
 
 
 class TcpDump(object):
-
     def __init__(self, adapter):
         self._adapter = adapter
 
     def __enter__(self):
-        command = [tcpdump, '-i', self._adapter, '-s', '0', '-U', '-n', '-w', '-']
+        command = [tcpdump, "-i", self._adapter, "-s", "0", "-U", "-n", "-w", "-"]
         proc = subprocess.Popen(command, stdout=subprocess.PIPE)
 
         def generator():
-            logger.info('Start tcpdump for {adapter}'.format(adapter=self._adapter))
+            logger.info("Start tcpdump for {adapter}".format(adapter=self._adapter))
             try:
                 while True:
                     yield proc.stdout.read(128)
@@ -30,7 +29,7 @@ class TcpDump(object):
                 logger.info(str(e))
             finally:
                 proc.terminate()
-                logger.info('Stop tcpdump for {adapter}'.format(adapter=self._adapter))
+                logger.info("Stop tcpdump for {adapter}".format(adapter=self._adapter))
 
         return generator()
 

@@ -12,41 +12,36 @@ class PacketDuplicationSchema(marshmallow.Schema):
 
 
 packet_duplication_schema = PacketDuplicationSchema()
-packet_duplication_model = api.model(
-    'PacketDuplication', {
-        'percent': flask_restplus.fields.Float(min=0, max=100)
-    })
+packet_duplication_model = api.model("PacketDuplication", {"percent": flask_restplus.fields.Float(min=0, max=100)})
 
 
-@api.route('/api/disciplines/packet_duplication')
+@api.route("/api/disciplines/packet_duplication")
 class PacketDuplicationResource(flask_restplus.Resource):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tc = Tc.adapter('eth1')
+        self.tc = Tc.adapter("eth1")
 
-    @api.response(200, 'Success', packet_duplication_model)
+    @api.response(200, "Success", packet_duplication_model)
     def get(self):
-        duplication = self.tc.disciplines.get('duplicate', NoneAttributes)
-        return {'percent': duplication.percent}, 200
+        duplication = self.tc.disciplines.get("duplicate", NoneAttributes)
+        return {"percent": duplication.percent}, 200
 
     @json_request_handler(packet_duplication_schema, packet_duplication_model)
     def post(self, data):
         disciplines = self.tc.disciplines
-        disciplines['duplicate'] = PacketDuplication(data['percent'])
+        disciplines["duplicate"] = PacketDuplication(data["percent"])
         self.tc.apply(disciplines)
 
 
-@api.route('/api/disciplines/packet_duplication/clear')
+@api.route("/api/disciplines/packet_duplication/clear")
 class ClearPacketDuplicationResource(flask_restplus.Resource):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tc = Tc.adapter('eth1')
+        self.tc = Tc.adapter("eth1")
 
     @json_request_handler()
     def post(self, data):
         disciplines = self.tc.disciplines
-        if 'duplicate' in disciplines:
-            del disciplines['duplicate']
+        if "duplicate" in disciplines:
+            del disciplines["duplicate"]
         self.tc.apply(disciplines)

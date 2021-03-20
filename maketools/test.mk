@@ -13,5 +13,4 @@ test:
 static:
 	@flake8 $(ROOT_PACKAGE)
 	@pydocstyle $(ROOT_PACKAGE) --ignore=D1,D202,D203,D204,D212 --explain
-	@yapf --style .yapf --diff $(FORMAT_SOURCES)
-	@isort --multi-line 2 --check-only --dont-skip '__init__.py' --line-width 100 $(FORMAT_SOURCES)
+	@black -l120 --check $(FORMAT_SOURCES)

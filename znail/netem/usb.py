@@ -17,7 +17,6 @@ logger.addHandler(logging.NullHandler())
 
 
 class Usb(object):
-
     def __init__(self):
         self._enabled = True
 
@@ -27,21 +26,21 @@ class Usb(object):
 
         The built in network card remains unaffected by this.
         """
-        logger.info('Disabling all USB ports')
+        logger.info("Disabling all USB ports")
         self._disable_usb_ports()
         self._enabled = False
 
     def enable_all_usb_ports(self):
         """Enable all USB ports."""
-        logger.info('Enabling all USB ports')
+        logger.info("Enabling all USB ports")
         self._enable_usb_ports()
         self._enabled = True
 
     def _disable_usb_ports(self):
-        run_in_shell('{hub_ctrl} -b 1 -d 2 -P 2 -p 0'.format(hub_ctrl=hub_ctrl))
+        run_in_shell("{hub_ctrl} -b 1 -d 2 -P 2 -p 0".format(hub_ctrl=hub_ctrl))
 
     def _enable_usb_ports(self):
-        run_in_shell('{hub_ctrl} -b 1 -d 2 -P 2 -p 1'.format(hub_ctrl=hub_ctrl))
+        run_in_shell("{hub_ctrl} -b 1 -d 2 -P 2 -p 1".format(hub_ctrl=hub_ctrl))
 
     @property
     def enabled(self):

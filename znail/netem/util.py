@@ -6,18 +6,18 @@ from textwrap import dedent
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
-hosts_file = os.getenv('HOSTS_FILE', '/etc/hosts')
-iptables = os.getenv('IPTABLES_COMMAND', 'iptables')
-tc = os.getenv('TC_COMMAND', 'tc')
-tcpdump = os.getenv('TCPDUMP_COMMAND', 'tcpdump')
-hub_ctrl = os.getenv('HUB_CTRL_COMMAND', 'hub-ctrl')
-systemctl = os.getenv('SYSTEMCTL_COMMAND', 'systemctl')
-shutdown = os.getenv('SHUTDOWN_COMMAND', 'shutdown')
+hosts_file = os.getenv("HOSTS_FILE", "/etc/hosts")
+iptables = os.getenv("IPTABLES_COMMAND", "iptables")
+tc = os.getenv("TC_COMMAND", "tc")
+tcpdump = os.getenv("TCPDUMP_COMMAND", "tcpdump")
+hub_ctrl = os.getenv("HUB_CTRL_COMMAND", "hub-ctrl")
+systemctl = os.getenv("SYSTEMCTL_COMMAND", "systemctl")
+shutdown = os.getenv("SHUTDOWN_COMMAND", "shutdown")
 
 
 def run_in_shell(command, timeout=1):
     try:
-        logger.info('Running: {command}'.format(command=command))
+        logger.info("Running: {command}".format(command=command))
         exit_code = subprocess.check_call(command, shell=True, timeout=timeout)
         logger.info("Command exited with exit code {exit_code}".format(exit_code=exit_code))
     except Exception as e:
@@ -27,20 +27,20 @@ def run_in_shell(command, timeout=1):
 
 
 def prepare_iptables():
-    logger.info('Clearing IP tables NAT rules')
-    run_in_shell('{iptables} -t nat -F'.format(iptables=iptables))
-    run_in_shell('{iptables} -t nat -A POSTROUTING -o eth0 -j MASQUERADE'.format(iptables=iptables))
+    logger.info("Clearing IP tables NAT rules")
+    run_in_shell("{iptables} -t nat -F".format(iptables=iptables))
+    run_in_shell("{iptables} -t nat -A POSTROUTING -o eth0 -j MASQUERADE".format(iptables=iptables))
 
 
 def reboot():
-    run_in_shell('{shutdown} -r now'.format(shutdown=shutdown))
+    run_in_shell("{shutdown} -r now".format(shutdown=shutdown))
 
 
 def restore_hosts_file_to_default():
-    logger.info('Restoring /etc/hosts file to default')
+    logger.info("Restoring /etc/hosts file to default")
     run_in_shell(
         dedent(
-            '''\
+            """\
     cat <<EOF> {hosts_file}
     127.0.0.1 localhost
     127.0.1.1 $(hostname)
@@ -53,4 +53,8 @@ def restore_hosts_file_to_default():
     ff02::2 ip6-allrouters
     ff02::3 ip6-allhosts
     EOF
-    '''.format(hosts_file=hosts_file)))
+    """.format(
+                hosts_file=hosts_file
+            )
+        )
+    )

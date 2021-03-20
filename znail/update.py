@@ -9,6 +9,6 @@ def update_available():
 
 
 def is_update_available():
-    if 'ZNAIL_FORCE_UPDATE_STATE' in os.environ:
-        return os.environ['ZNAIL_FORCE_UPDATE_STATE']
+    if "ZNAIL_FORCE_UPDATE_STATE" in os.environ:
+        return os.environ["ZNAIL_FORCE_UPDATE_STATE"]
     return _update_available

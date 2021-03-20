@@ -6,13 +6,12 @@ from znail.netem.util import restore_hosts_file_to_default
 
 
 class TestRestoreHostsFileToDefault(unittest.TestCase):
-
     def test_command_is_rendered_correctly(self):
-        with patch('znail.netem.util.run_in_shell') as mock:
+        with patch("znail.netem.util.run_in_shell") as mock:
             restore_hosts_file_to_default()
             mock.assert_called_once_with(
                 dedent(
-                    '''\
+                    """\
     cat <<EOF> /etc/hosts
     127.0.0.1 localhost
     127.0.1.1 $(hostname)
@@ -25,4 +24,6 @@ class TestRestoreHostsFileToDefault(unittest.TestCase):
     ff02::2 ip6-allrouters
     ff02::3 ip6-allhosts
     EOF
-    '''))
+    """
+                )
+            )

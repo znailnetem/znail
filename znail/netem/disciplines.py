@@ -23,7 +23,7 @@ class QueueingDiscipline(object):
 
     def __eq__(self, other):
         for k, v in self.__dict__.items():
-            if not k.startswith('__'):
+            if not k.startswith("__"):
                 if v != other.__dict__[k]:
                     return False
         return True
@@ -34,7 +34,7 @@ class PacketDelay(QueueingDiscipline):
 
     def __init__(self, milliseconds):
         self._milliseconds = milliseconds
-        super().__init__('delay', 'netem delay {milliseconds}ms'.format(milliseconds=milliseconds))
+        super().__init__("delay", "netem delay {milliseconds}ms".format(milliseconds=milliseconds))
 
     @property
     def milliseconds(self):
@@ -46,7 +46,7 @@ class PacketLoss(QueueingDiscipline):
 
     def __init__(self, percent):
         self._percent = percent
-        super().__init__('loss', 'netem loss {percent}%'.format(percent=percent))
+        super().__init__("loss", "netem loss {percent}%".format(percent=percent))
 
     @property
     def percent(self):
@@ -58,7 +58,7 @@ class PacketDuplication(QueueingDiscipline):
 
     def __init__(self, percent):
         self._percent = percent
-        super().__init__('duplicate', 'netem duplicate {percent}%'.format(percent=percent))
+        super().__init__("duplicate", "netem duplicate {percent}%".format(percent=percent))
 
     @property
     def percent(self):
@@ -76,8 +76,9 @@ class PacketReordering(QueueingDiscipline):
         self._percent = percent
         self._milliseconds = milliseconds
         super().__init__(
-            'reorder', 'netem delay {milliseconds}ms reorder {percent}%'.format(
-                milliseconds=milliseconds, percent=percent))
+            "reorder",
+            "netem delay {milliseconds}ms reorder {percent}%".format(milliseconds=milliseconds, percent=percent),
+        )
 
     @property
     def percent(self):
@@ -97,7 +98,7 @@ class PacketCorruption(QueueingDiscipline):
 
     def __init__(self, percent):
         self._percent = percent
-        super().__init__('corrupt', 'netem corrupt {percent}%'.format(percent=percent))
+        super().__init__("corrupt", "netem corrupt {percent}%".format(percent=percent))
 
     @property
     def percent(self):
@@ -112,9 +113,11 @@ class RateControl(QueueingDiscipline):
         self._latency_milliseconds = latency_milliseconds
         self._burst_bytes = burst_bytes
         super().__init__(
-            'rate',
-            'tbf rate {kbit}kbit latency {latency_milliseconds}ms burst {burst_bytes}'.format(
-                kbit=kbit, latency_milliseconds=latency_milliseconds, burst_bytes=burst_bytes))
+            "rate",
+            "tbf rate {kbit}kbit latency {latency_milliseconds}ms burst {burst_bytes}".format(
+                kbit=kbit, latency_milliseconds=latency_milliseconds, burst_bytes=burst_bytes
+            ),
+        )
 
     @property
     def kbit(self):
