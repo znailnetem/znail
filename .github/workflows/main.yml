@@ -17,9 +17,15 @@ jobs:
         uses: actions/setup-python@v2.2.1
         with:
           python-version: 3.9.2
+      
+      - name: Setup Geckodriver
+        uses: browser-actions/setup-geckodriver@v0.0.0
+        with:
+          geckodriver-version: 0.29.0
 
       - name: Test
         run: |
           source activate
           make static
           make test
+          make systest
