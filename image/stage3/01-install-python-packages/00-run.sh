@@ -2,8 +2,10 @@
 
 install -d "${ROOTFS_DIR}/opt/znail"
 echo $(pwd)
-install -v -m 600 ../../../../requirements.txt "${ROOTFS_DIR}/opt/znail/requirements.txt"
-install -v -m 600 ../../../../dist/pypi/*.whl "${ROOTFS_DIR}/opt/znail"
+install -v -m 600 files/requirements.txt "${ROOTFS_DIR}/opt/znail/requirements.txt"
+for file in files/dist/pypi/*.whl; do
+    install -v -m 600 "${file}" "${ROOTFS_DIR}/opt/znail"
+done
 
 rm -f "${ROOTFS_DIR}/usr/local/bin/hub-ctrl"
 ln -s /opt/znail/venv/lib/python3.7/site-packages/znail/netem/data/hub-ctrl "${ROOTFS_DIR}/usr/local/bin/hub-ctrl"

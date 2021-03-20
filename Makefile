@@ -52,6 +52,10 @@ SHELL := bash
 test:
 	pytest $(ROOT_PACKAGE)
 
+.PHONY: systest
+systest:
+	pytest $(SYSTEST_PACKAGE)
+
 .PHONY: static
 static:
 	@flake8 $(ROOT_PACKAGE) $(SYSTEST_PACKAGE)
@@ -121,7 +125,7 @@ image: pypi build/pi-gen
 	rm -rf build/pi-gen/stage3 build/pi-gen/stage4 build/pi-gen/stage5
 	cp -r image/* build/pi-gen/
 	cp -r requirements.txt dist/pypi/*.whl build/pi-gen/stage3/01-install-python-packages/files
-	cd build/pi-gen && sudo ./build-docker.sh
+	cd build/pi-gen && ./build-docker.sh
 
 cleanimage:
 	rm -rf build/image
