@@ -28,3 +28,4 @@ docker/markers/*marker
 /build/
 geckodriver.log
 .vscode
+.pytest_cache
