@@ -119,4 +119,7 @@ image: pypi build/pi-gen
 	mkdir -p dist/image
 	rm -rf build/pi-gen/stage3 build/pi-gen/stage4 build/pi-gen/stage5
 	cp -r image/* build/pi-gen/
-	cd build/pi-gen && sudo ./build.sh
+	cd build/pi-gen && sudo ./build-docker.sh
+
+cleanimage:
+	rm -rf build/image
