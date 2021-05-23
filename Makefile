@@ -117,14 +117,23 @@ build/pi-gen:
 	mkdir -p build
 	cd build && git clone --branch 2020-02-13-raspbian-buster https://github.com/RPi-Distro/pi-gen.git
 
-.PHONY: image
-image: pypi | build/pi-gen
+.PHONY: raspbian_image
+raspbian_image: pypi | build/pi-gen
 	mkdir -p dist/image
 	rm -rf build/pi-gen/stage3 build/pi-gen/stage4 build/pi-gen/stage5
-	cp -r image/* build/pi-gen/
+	cp -r image/raspbian/* build/pi-gen/
 	cp -r requirements.txt dist/pypi/*.whl build/pi-gen/stage3/01-install-python-packages/files
 	cd build/pi-gen && ./build-docker.sh
 	mv build/pi-gen/deploy/* dist/image/
+
+build/armbian:
+	mkdir -p build
+	cd build && git clone --branch v2021.05 https://github.com/armbian/build.git armbian
+
+.PHONY: armbian_image
+armbian_image: pypi | build/armbian
+
+image: raspbian_image armbian_image
 
 cleanimage:
 	rm -rf build/image
