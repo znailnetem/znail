@@ -39,7 +39,7 @@ The default SSH username for the pre-built image is `pi` and the password is `ra
 
 The default SSH username for the pre-built image is `root` and the password is `1234`.
 
-# Generating a Custom Image
+# Generating Custom Images
 
 To set up the environment on an Ubuntu 20.04 system, run the following commands:
 
@@ -50,7 +50,11 @@ To generate an image:
 
     make image
 
-The resulting image can be found in the `dist/image` directory.
+The resulting images can be found in the `dist/image` directory.
+
+Generating the different images can take quite some time.
+If you are looking to only build one specific kind of image more narrow `make` targets are available.
+See `make help` for more information.
 
 # Development
 
