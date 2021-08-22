@@ -145,6 +145,7 @@ armbian_image:  pypi | build/armbian
 	cd ./build/armbian && ./compile.sh docker znail-nanopi-r2s
 	mv build/armbian/output/images/* dist/image
 
+.PHONY: image
 image: raspbian_image armbian_image
 
 cleanimage:
