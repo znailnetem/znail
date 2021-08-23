@@ -23,7 +23,9 @@ help:
 	@echo " Packaging:"
 	@echo ""
 	@echo "  pypi             Build PyPi packages"
-	@echo "  image            Build a Raspberry Pi image"
+	@echo "  image            Build all image types"
+	@echo "  raspbian_image   Build a Raspbian image suitable for use with most Raspberry Pi models"
+	@echo "  armbian_image    Build a Armbian image suitable for use with the NanoPi R2S"
 	@echo ""
 	@echo " Clean:"
 	@echo ""
@@ -117,14 +119,34 @@ build/pi-gen:
 	mkdir -p build
 	cd build && git clone --branch 2020-02-13-raspbian-buster https://github.com/RPi-Distro/pi-gen.git
 
-.PHONY: image
-image: pypi | build/pi-gen
+.PHONY: raspbian_image
+raspbian_image: pypi | build/pi-gen
 	mkdir -p dist/image
 	rm -rf build/pi-gen/stage3 build/pi-gen/stage4 build/pi-gen/stage5
-	cp -r image/* build/pi-gen/
+	cp -r image/raspbian/* build/pi-gen/
 	cp -r requirements.txt dist/pypi/*.whl build/pi-gen/stage3/01-install-python-packages/files
+	cp -r image/common/files/* build/pi-gen/stage3/02-install-services/files
 	cd build/pi-gen && ./build-docker.sh
 	mv build/pi-gen/deploy/* dist/image/
+
+build/armbian:
+	mkdir -p build
+	# It would be nice to be able to checkout specific branch or commit here to
+	# get builds that are reproducible, but this does not seem well supported by
+	# Armbian. For example, checking out branch v2021.05 yields a broken build
+	# due to upstream changes. As such, checkout the main branch.
+	cd build && git clone https://github.com/armbian/build.git armbian
+
+.PHONY: armbian_image
+armbian_image: pypi | build/armbian
+	mkdir -p dist/image build/armbian/userpatches/overlay
+	cp -r image/armbian/userpatches/* build/armbian/userpatches
+	cp -r requirements.txt dist/pypi/*.whl image/common/files/* build/armbian/userpatches/overlay
+	cd ./build/armbian && ./compile.sh docker znail-nanopi-r2s
+	mv build/armbian/output/images/* dist/image
+
+.PHONY: image
+image: raspbian_image armbian_image
 
 cleanimage:
 	rm -rf build/image

@@ -2,8 +2,8 @@
 
 ![Znail Logo](/artwork/znail_x10.png)
 
-Znail is a network emulator inteded to run on a Raspberry Pi.
-Equipped with two network interfaces, the Raspberry Pi acts as a network bridge.
+Znail is a network emulator inteded to run on a computer with two network interfaces.
+Equipped with two network interfaces, Znail acts as a network bridge.
 Znail can then control network traffic passing through the bridge.
 
 With a system under test connected to the network through this bridge,
@@ -27,11 +27,19 @@ Znail can be managed in one of two ways, using its web interface or its REST API
 
 # Getting Started
 
-The easiest way to get started with Znail is to [download](https://github.com/znailnetem/znail/releases/latest) a Rasbian image with Znail pre-installed.
+The easiest way to get started with Znail is to [download](https://github.com/znailnetem/znail/releases/latest) an image with Znail pre-installed.
 
-The image can then be [installed](https://www.raspberrypi.org/documentation/installation/installing-images/README.md) on a Raspberry Pi.
+The image can then be installed on a suitable target system, for example a [Raspberry Pi](https://www.raspberrypi.org/documentation/installation/installing-images/README.md).
 
-# Generating a Custom Image
+## Raspberry Pi
+
+The default SSH username for the pre-built image is `pi` and the password is `raspberry`.
+
+## NanoPi R2S
+
+The default SSH username for the pre-built image is `root` and the password is `1234`.
+
+# Generating Custom Images
 
 To set up the environment on an Ubuntu 20.04 system, run the following commands:
 
@@ -42,8 +50,11 @@ To generate an image:
 
     make image
 
-The resulting image can be found in the `dist/image` directory.
-Note that due to the way `pi-gen` works, portions of the `make image` target needs to run as root.
+The resulting images can be found in the `dist/image` directory.
+
+Generating the different images can take quite some time.
+If you are looking to only build one specific kind of image more narrow `make` targets are available.
+See `make help` for more information.
 
 # Development
 
