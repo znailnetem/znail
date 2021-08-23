@@ -138,7 +138,7 @@ build/armbian:
 	cd build && git clone https://github.com/armbian/build.git armbian
 
 .PHONY: armbian_image
-armbian_image:  pypi | build/armbian
+armbian_image: pypi | build/armbian
 	mkdir -p dist/image build/armbian/userpatches/overlay
 	cp -r image/armbian/userpatches/* build/armbian/userpatches
 	cp -r requirements.txt dist/pypi/*.whl image/common/files/* build/armbian/userpatches/overlay
