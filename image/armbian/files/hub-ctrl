@@ -1,0 +1,25 @@
+#!/bin/bash
+
+while getopts "b:d:P:p:" o; do
+	case "${o}" in
+	p)
+		p=${OPTARG}
+		;;
+	*)
+		# ignore
+		;;
+	esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${p}" ]; then
+	exit 1
+fi
+
+if [ "${p}" == "0" ]; then
+	# Avoid error spam from driver
+	rmmod r8152
+	echo 0 > /sys/devices/platform/lan-switch/state
+else
+	echo 1 > /sys/devices/platform/lan-switch/state
+fi

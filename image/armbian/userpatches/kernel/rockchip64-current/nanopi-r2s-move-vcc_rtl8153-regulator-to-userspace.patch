@@ -1,0 +1,32 @@
+dt: nanopi-r2s: move vcc_rtl8153 regulator to userspace
+
+This changes the vcc_rtl8153 so it's no longer "always-on", but instead
+depends on number of consumers. Add a userspace regulator consumer and
+make it on by default.
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2-rev00.dts b/arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2-rev00.dts
+index 717b1b2ed..fc88d49da 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2-rev00.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2-rev00.dts
+@@ -36,13 +36,20 @@ vcc_rtl8153: vcc-rtl8153-regulator {
+ 		gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_HIGH>;
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&usb30_en_drv>;
+-		regulator-always-on;
+ 		regulator-name = "vcc_rtl8153";
+ 		regulator-min-microvolt = <5000000>;
+ 		regulator-max-microvolt = <5000000>;
+ 		off-on-delay-us = <5000>;
+ 		enable-active-high;
+ 	};
++
++	lan-switch {
++		compatible = "reg-userspace-consumer";
++		regulator-name = "rtl8153-regulator-consumer";
++		regulator-boot-on;
++		regulator-supplies = "vdd5";
++		vdd5-supply = <&vcc_rtl8153>;
++	};
+ };
+ 
+ &mach {

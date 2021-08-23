@@ -1,0 +1,6 @@
+Patch naming matters!
+
+armbian build scripts will apply its own patches and the patches here in alpha-
+betical order, which means that special care needs to be taken if any custom
+patches modifies files introduced by armbian, e.g.
+nanopi-r2s-move-vcc_rtl8153-regulator-to-userspace.patch
