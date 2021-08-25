@@ -141,7 +141,7 @@ build/armbian:
 armbian_image: pypi | build/armbian
 	mkdir -p dist/image build/armbian/userpatches/overlay
 	cp -r image/armbian/userpatches/* build/armbian/userpatches
-	cp -r requirements.txt dist/pypi/*.whl image/common/files/* build/armbian/userpatches/overlay
+	cp -r requirements.txt dist/pypi/*.whl image/common/files/* image/armbian/files/* build/armbian/userpatches/overlay/
 	cd ./build/armbian && ./compile.sh docker znail-nanopi-r2s
 	mv build/armbian/output/images/* dist/image
 

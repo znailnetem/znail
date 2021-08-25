@@ -52,9 +52,8 @@ InstallZnail() {
 	install -v -m 644 "${OVERLAY}/znail.service" "/etc/systemd/system/"
 	rm -f "/etc/systemd/system/multi-user.target.wants/znail.service"
 	ln -s "/etc/systemd/system/znail.service" "/etc/systemd/system/multi-user.target.wants/znail.service"
-	# Fake hub-ctrl to make znail start
 	rm -f "/usr/local/bin/hub-ctrl"
-	ln -s "/usr/bin/true" "/usr/local/bin/hub-ctrl"
+	install -v -m 775 "${OVERLAY}/hub-ctrl" "/usr/local/bin/hub-ctrl"
 }
 
 EnableKernelModules "$@"
