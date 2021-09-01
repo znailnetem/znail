@@ -29,7 +29,8 @@ Znail can be managed in one of two ways, using its web interface or its REST API
 
 The easiest way to get started with Znail is to [download](https://github.com/znailnetem/znail/releases/latest) an image with Znail pre-installed.
 
-The image can then be installed on a suitable target system, for example a [Raspberry Pi](https://www.raspberrypi.org/documentation/installation/installing-images/README.md).
+The image can then be installed on a suitable target system, for example a [Raspberry Pi](https://www.raspberrypi.org/documentation/installation/installing-images/README.md)
+or a [NanoPi R2S](https://docs.armbian.com/User-Guide_Getting-Started/#how-to-prepare-a-sd-card).
 
 ## Raspberry Pi
 
