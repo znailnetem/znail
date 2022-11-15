@@ -123,6 +123,13 @@ build/pi-gen:
 raspbian_image: pypi | build/pi-gen
 	mkdir -p dist/image
 	rm -rf build/pi-gen/stage3 build/pi-gen/stage4 build/pi-gen/stage5
+	sed -e 's/wpasupplicant//' \
+	    -e 's/wireless-tools//' \
+	    -e 's/firmware-atheros//' \
+	    -e 's/firmware-brcm80211//' \
+	    -e 's/firmware-libertas//' \
+	    -e 's/^\s*//' \
+	    -i build/pi-gen/stage2/02-net-tweaks/00-packages
 	cp -r image/raspbian/* build/pi-gen/
 	cp -r requirements.txt dist/pypi/*.whl build/pi-gen/stage3/01-install-python-packages/files
 	cp -r image/common/files/* build/pi-gen/stage3/02-install-services/files
