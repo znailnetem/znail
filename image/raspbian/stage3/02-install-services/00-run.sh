@@ -15,3 +15,6 @@ install -v -m 700 files/update-network-interfaces "${ROOTFS_DIR}/usr/local/bin"
 
 rm -f "${ROOTFS_DIR}"/etc/systemd/system/multi-user.target.wants/ssh.service
 ln -s /lib/systemd/system/ssh.service "${ROOTFS_DIR}"/etc/systemd/system/multi-user.target.wants/ssh.service
+
+grep -qxF "dtoverlay=pi3-disable-wifi" "${ROOTFS_DIR}/boot/config.txt" || echo "dtoverlay=pi3-disable-wifi" >> "${ROOTFS_DIR}/boot/config.txt"
+grep -qxF "dtoverlay=pi3-disable-bt" "${ROOTFS_DIR}/boot/config.txt" || echo "dtoverlay=pi3-disable-bt" >> "${ROOTFS_DIR}/boot/config.txt"
